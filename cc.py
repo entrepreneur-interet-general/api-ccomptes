@@ -5,19 +5,18 @@ Created on Thu May 11 10:53:09 2017
 
 @author: seiteta
 """
-
 import pandas as pd
+import numpy as np
 import docx
 import re
 from subprocess import Popen, PIPE
-
-
-cada = pd.read_csv("cada.csv")
-
+from bs4 import BeautifulSoup
+from os import listdir
+from os.path import isfile, join
 
 def doc_to_txt(filename):
     '''
-        Gets the path of a Word document and returns the text of this document
+        Get the path of a Word document and returns the text of this document
         
         :param filename: The filename of the doc or docx document
         :type filename: str
@@ -35,55 +34,28 @@ def doc_to_txt(filename):
     full_text = []
     
     if filename.lower().endswith(".doc"):
-        #print("Converting to txt the doc file:" + filename)
+        print("Converting to txt the doc file:" + filename)
         cmd = ['antiword', filename]
         p = Popen(cmd, stdout=PIPE)
         stdout, stderr = p.communicate()
         full_text = stdout.decode()
+
     elif filename.lower().endswith(".docx"):
-        #print("Converting to txt the docx file:" + filename)
+        print("Converting to txt the docx file:" + filename)
         doc = docx.Document(filename)
         for para in doc.paragraphs:
             full_text.append(para.text)
         full_text = '\n'.join(full_text)
+
     else :
         print("Document extension should be either .doc or .docx")
+
     return full_text
         
-#==============================================================================
-# def txt_cleaner(text):
-#     '''
-#         Gets a text and returns a cleaned text
-#         
-#         :param text: The dirty text
-#         :type text: str
-#         :return: The clean text
-#         :rtype: str
-#         
-#         :Example:
-#         >>> txt_cleaner('This text have lots of\n\n\n')
-#         'This text have lots of   '
-#         >>> txt_cleaner('This text have HTML<sup><a href="#fn1"  id="ref1">1</a></sup>')
-#         'This text have HTML'
-#     '''
-#     # Remove new lines
-#     new_text = text.replace("\n", " ")
-# 
-#     # Remove HTML <sup> tags
-#     start = "<sup>"
-#     end = "</sup>"
-#     pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
-#     new_text = re.sub(pattern, '', new_text)
-#     
-#     return new_text
-# 
-# A = txt_cleaner(A)
-# B = txt_cleaner(B)
-#==============================================================================
 
-def txt_cleaner(text):
+def clean_text(text):
      '''
-         Gets a text and returns a cleaned text
+         Get a text and returns a cleaned text
          
          :param text: The dirty text
          :type text: str
@@ -91,12 +63,12 @@ def txt_cleaner(text):
          :rtype: str
          
          :Example:
-         >>> txt_cleaner('This text have lots of\n\n\n')
+         >>> clean_text('This text have lots of\n\n\n')
          'This text have lots of   '
-         >>> txt_cleaner('<div>This text have HTML</div>')
+         >>> clean_text('<div>This text have HTML</div>')
          'This text have HTML'
      '''
-     # Remove new lines
+     # Replace new lines with spaces
      new_text = text.replace("\n", " ")
  
      # Remove HTML tags
@@ -106,68 +78,91 @@ def txt_cleaner(text):
      new_text = re.sub(pattern, '', new_text)
      
      return new_text
- 
-
-#==============================================================================
-# # Build the corpus
-# my_path = "/Users/seiteta/Work/quen-dit-la-cour/reports/"
-# from os import listdir
-# from os.path import isfile, join
-# report_filename = [f for f in listdir(my_path) if isfile(join(my_path, f)) and not f.startswith('.')]
-# # report_txt = [txt_cleaner(doc_to_txt(my_path + filename)) for filename in report_filename]
-# report_txt = [doc_to_txt(my_path + filename) for filename in report_filename]
-# corpus = pd.DataFrame(data = report_txt, index = report_filename, columns = ["report"])
-#==============================================================================
-
-# Build the corpus
-my_path = "/Users/seiteta/Desktop/dossier sans titre/datasession/2 – Données clef USB/donnees_jf/rapports_publics_2016/"
-
-from os import listdir
-from os.path import isfile, join
-report_filename = [f for f in listdir(my_path) if isfile(join(my_path, f)) and not f.startswith('.')]
-# report_txt = [txt_cleaner(doc_to_txt(my_path + filename)) for filename in report_filename]
 
 
-from bs4 import BeautifulSoup
+def list_files(path):
+    '''
+        Get a path and return a list of all the non-hidden files in this path
+        
+        :param path: The path of the directory
+        :type path: str
+        :return: The list of all the non-hidden files
+        :rtype: list
+        
+        :Example:
+        >>> list_files('/usr/bin')
+        ['nscurl',
+         'nslookup',
+         'nsupdate',
+         ...
+        ]
+    '''
+    files_list = [f for f in listdir(path) if isfile(join(path, f)) and not f.startswith('.')]
 
-def html_to_txt(filename):
-    print(filename)
+    return files_list
+
+
+def remove_html_head(filename):
+    '''
+        Read an HTML file and remove the <head> part
+        
+        :param filename: The name of the HTML file (including path)
+        :type filename: str
+        :return: A text containing the HTML without the <head>
+        :rtype: str
+        
+        :Example:
+        >>> remove_html_head(path+report_filenames[0])
+        '<body>\n  <div class="container">\n   <div class="table-grid">\n ...'
+        
+    '''
     with open(filename, 'r') as html:
         soup = BeautifulSoup(html, 'html.parser')
-        full_text = soup.prettify()[586:-18]
-    return full_text
-
-report_filename = [filename for filename in report_filename if filename.endswith('.html')]
-report_txt = [html_to_txt(my_path + filename) for filename in report_filename]
-
-corpus = pd.DataFrame(data = report_txt, index = report_filename, columns = ["report"])
+        text = soup.prettify()[586:-18] # These numbers work for HTML files created with my doc_to_HTML program
+    return text
 
 
+path = "/Users/seiteta/Desktop/dossier sans titre/datasession/2 – Données clef USB/donnees_jf/rapports_publics_2016/"
 
-# Shorten the report for the import in MongoDB
-# TODO: fix that
-for i in range(len(corpus)):
-    report = corpus["report"].iloc[i]
-    report = txt_cleaner(report)
-    if len(report) > 30000:
-        report = report[7:30000]        
-    cada["Avis"].iloc[i] = report
+# Create a list of files
+report_filenames = list_files(path)
 
+# Keep only the files ending in .html
+report_filenames = [filename for filename in report_filenames if filename.endswith('.html')]
 
-cour = cada.head(len(corpus))
+# Create a list containg the text without the <head>
+report_txt = [remove_html_head(path + filename) for filename in report_filenames]
 
-for i in range(len(corpus)):
-    cour["Numéro de dossier"].iloc[i] = i
+# Load this list in a pandas DataFrame
+corpus = pd.DataFrame(data = report_txt, index = report_filenames, columns = ["report"])
 
+# Generate a DataFrame
+cour = pd.DataFrame (data = np.arange(len(corpus)), columns = ["Numéro de dossier"])
 cour["Administration"] = "Cour des comptes"
 cour["Type"] = "Rapport"
+cour["Année"] = "2016"
+cour["Séance"] = "01/01/2016"
+cour["Objet"] = ""
 cour["Thème et sous thème"] = "Thème 1"
 cour["Mots clés"] = "Mot clé 1"
-cour["Objet"] = ""
-    
+cour["Sens et motivation"] = "Favorable"
+cour["Partie"]= "I"
+cour['Avis'] = corpus["report"].values
+
+# Shorten the report for the import in MongoDB
+cour['Avis'] = cour['Avis'].apply(lambda x: x[7:30000])
+
+# Export to csv
 cour.to_csv("cour.csv", index = None)
 
 
+
+
+
+
+
+
+    
 #
 #from sklearn.feature_extraction.text import TfidfVectorizer
 #
