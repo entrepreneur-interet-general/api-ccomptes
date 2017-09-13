@@ -1,0 +1,3 @@
+*.pyc
+*.csv
+cada/static/.webassets-cache

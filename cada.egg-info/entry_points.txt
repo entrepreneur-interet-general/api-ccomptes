@@ -1,0 +1,3 @@
+[console_scripts]
+cada = cada.commands:main
+
