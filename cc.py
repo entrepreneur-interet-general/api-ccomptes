@@ -157,77 +157,70 @@ cour.to_csv("cour.csv", index = None)
 
 
 
+# Automatically generate keywords with Tf-Idf
+from sklearn.feature_extraction.text import TfidfVectorizer
 
+french = ["alors", "au", "aux", "aucuns", "aussi", "autre", "avant", "avec", "avoir",
+         "bon", "car", "ce", "cela", "ces", "cette", "ceux", "chaque", "ci", "comme",
+         "comment", "dans", "de", "des", "du", "dedans", "dehors", "depuis", "devrait",
+         "doit", "donc", "dos", "début", "elle", "elles", "en", "encore", "essai",
+         "est", "et", "eu", "fait", "faites", "fois", "font", "hors", "ici", "il",
+         "ils", "je", "juste", "la", "le", "les", "leur", "là", "ma", "maintenant",
+         "mais", "mes", "mine", "moins", "mon", "mot", "même", "ni", "nommés",
+         "notre", "nous", "ou", "où", "ont","par", "parce", "pas", "peut", "peu", "plupart",
+         "pour", "pourquoi", "qu","quand", "que", "quel", "quelle", "quelles", "quels",
+         "qui", "sa", "sans", "ses", "seulement", "si", "sien", "son", "sont",
+         "sous", "soyez", "sujet", "sur", "ta", "tandis", "tellement", "tels",
+         "tes", "ton", "tous", "tout", "trop", "très", "tu", "un", "une", "voient", "vont",
+         "votre", "vous", "vu", "ça", "étaient", "état", "étions", "été", "être",
+         "class", "div", "dsn", "jdc", "td", "tr", "sup", "normal", "toc", "table",
+         "saisie", "texte", "deux", "trois", "quatre", "18", "2001", "2015", "2016", "2017",
+         "madame", "mesdames" , "présidente", "présidentes", "président","monsieur", "ministre",
+         ]
 
-
-
-
+def find_best_phrase(id_report = 0, num_phrases = 10):
+    """
+        Find phrases with the highest tf-idf value
+        Parameters:
+        id_report => ID of a report (integer)
+        num_phrases => Number of phrases to find (integer)
+    """
     
-#
-#from sklearn.feature_extraction.text import TfidfVectorizer
-#
-#
-#french = ["alors", "au", "aux", "aucuns", "aussi", "autre", "avant", "avec", "avoir",
-#         "bon", "car", "ce", "cela", "ces", "cette", "ceux", "chaque", "ci", "comme",
-#         "comment", "dans", "de", "des", "du", "dedans", "dehors", "depuis", "devrait",
-#         "doit", "donc", "dos", "début", "elle", "elles", "en", "encore", "essai",
-#         "est", "et", "eu", "fait", "faites", "fois", "font", "hors", "ici", "il",
-#         "ils", "je", "juste", "la", "le", "les", "leur", "là", "ma", "maintenant",
-#         "mais", "mes", "mine", "moins", "mon", "mot", "même", "ni", "nommés",
-#         "notre", "nous", "ou", "où", "ont","par", "parce", "pas", "peut", "peu", "plupart",
-#         "pour", "pourquoi", "qu","quand", "que", "quel", "quelle", "quelles", "quels",
-#         "qui", "sa", "sans", "ses", "seulement", "si", "sien", "son", "sont",
-#         "sous", "soyez", "sujet", "sur", "ta", "tandis", "tellement", "tels",
-#         "tes", "ton", "tous", "tout", "trop", "très", "tu", "un", "une", "voient", "vont",
-#         "votre", "vous", "vu", "ça", "étaient", "état", "étions", "été", "être",
-#         "class", "div", "dsn", "jdc", "td", "tr", "sup", "normal", "saisie", "texte"]
-#def find_best_phrase(id_report = 0, num_phrases = 10):
-#    """
-#        Find phrases with the highest tf-idf value
-#        Parameters:
-#        id_report => ID of a report (integer)
-#        num_phrases => Number of phrases to find (integer)
-#        ngram => Number of word in the phrases (integer)
-#    """
-#    
-#    # Train the model
-#    tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df = 0, stop_words = french)
-#    
-#    # Execute the model against our corpus
-#    tfidf_matrix =  tf.fit_transform(corpus["report"])
-#    feature_names = tf.get_feature_names() 
-#    
-#    # Build a dense matrix because some operations can't be done on sparse matrix
-#    dense = tfidf_matrix.todense()
-#    
-#    # Select the id_report report
-#    report = dense[id_report].tolist()[0]
-#
-#    # Match feature index with real words
-#    phrase_scores = [pair for pair in zip(range(0, len(report)), report) if pair[1] > 0]
-#    sorted_phrase_scores = sorted(phrase_scores, key=lambda t: t[1] * -1)
-#        
-#    # Save num_phrases phrases in a dictionnary
-#    best_phrases = {}
-#    for phrase, score in [(feature_names[word_id], score) for (word_id, score) in sorted_phrase_scores][:num_phrases]:
-#        best_phrases[phrase] = score
-#    return best_phrases
-#
-#
-#for i in range(len(corpus)):
-#    report = corpus["report"].iloc[i]
-#   
-#    cour["Avis"].iloc[i] = report
-#        
-#for i in range(len(corpus)):
-#    a = find_best_phrase(i, 5)
-#    b = list(a.keys())
-#    c = ', '.join(b)
-#    
-#    cour["Mots clés"].iloc[i] = c
+    # Train the model
+    tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df = 0, stop_words = french)
+    
+    # Execute the model against our corpus
+    tfidf_matrix =  tf.fit_transform(cour['Avis'].apply(lambda x: clean_text(x)))
+    feature_names = tf.get_feature_names() 
+    
+    # Build a dense matrix because some operations can't be done on sparse matrix
+    dense = tfidf_matrix.todense()
+    
+    # Select the id_report report
+    report = dense[id_report].tolist()[0]
+
+    # Match feature index with real words
+    phrase_scores = [pair for pair in zip(range(0, len(report)), report) if pair[1] > 0]
+    sorted_phrase_scores = sorted(phrase_scores, key=lambda t: t[1] * -1)
+        
+    # Save num_phrases phrases in a dictionnary
+    best_phrases = {}
+    for phrase, score in [(feature_names[word_id], score) for (word_id, score) in sorted_phrase_scores][:num_phrases]:
+        best_phrases[phrase] = score
+                    
+    return best_phrases
 
 
+def get_keywords(document, corpus):
+    best_phrases = find_best_phrase(i, 5)
+    list_best_phrases = list(best_phrases.keys())
+    list_best_phrases = ', '.join(list_best_phrases)
+
+    return list_best_phrases
+
+for i in range(len(cour)):
+    cour["Mots clés"].iloc[i] = get_keywords(i, corpus)
 
 
-
-
+# Export to csv
+cour.to_csv("cour.csv", index = None)
