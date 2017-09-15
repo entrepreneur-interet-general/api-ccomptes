@@ -136,12 +136,18 @@ report_txt = [remove_html_head(path + filename) for filename in report_filenames
 # Load this list in a pandas DataFrame
 corpus = pd.DataFrame(data = report_txt, index = report_filenames, columns = ["report"])
 
+# Load metadata associated with the file
+meta = pd.read_csv(path + "metadonnees.csv", encoding ='ISO-8859-1', sep = ";")
+corpus['Clé Flora'] = corpus.index
+corpus['Clé Flora'] = corpus['Clé Flora'].apply(lambda x: int(x[:6]))
+corpus = corpus.merge(meta, on = 'Clé Flora')
+
 # Generate a DataFrame
 cour = pd.DataFrame (data = np.arange(len(corpus)), columns = ["Numéro de dossier"])
 cour["Administration"] = "Cour des comptes"
 cour["Type"] = "Rapport"
-cour["Année"] = "2016"
-cour["Séance"] = "01/01/2016"
+cour["Année"] = corpus["Date du document"].apply(lambda x:x[6:])
+cour["Séance"] = corpus["Date du document"]
 cour["Objet"] = ""
 cour["Thème et sous thème"] = "Thème 1"
 cour["Mots clés"] = "Mot clé 1"
