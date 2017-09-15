@@ -65,13 +65,14 @@
             {% for advice in advices %}
             <li>
                 <a class="title" href="{{ url_for('site.display', id=advice.id) }}">
-                    {{ advice.type.title() }} {{ advice.id }}
+                    {{ advice.subject|truncate(100) }}
+                    <!-- {{ advice.type.title() }} {{ advice.id }} -->
                 </a>
                 <div class="subtitle">
                     <span class="glyphicon glyphicon-home"></span>
                     {{ advice.administration }}
                 </div>
-                <div class="excerpt">{{ advice.subject|truncate(100) }}</div>
+                <!-- <div class="excerpt">{{ advice.subject|truncate(100) }}</div> -->
                 <div class="label-list">
                     <a class="label label-info" title="Séance"
                         href="{{url_for('site.search', session=advice.session.strftime('%Y-%m-%d')) }}">
