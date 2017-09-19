@@ -8,13 +8,13 @@
         <h1>
             {{ advice.subject }}
             <!-- {{ advice.type.title() }} {{ advice.id }} -->
-            <small>Séance du {{ advice.session.strftime('%d/%m/%Y') }}</small>
+            <small>Rapport du {{ advice.session.strftime('%d/%m/%Y') }}</small>
         </h1>
         <!-- <div class="lead subject raw">
             {{- advice.subject -}}
         </div> -->
         <!-- <div class="content raw"> -->
-          <div class = "content raw">
+          <div class = "content">
             {{ advice.content|safe }}
           </div>
         <!-- </div> -->
@@ -31,17 +31,6 @@
                 </a>
             </div>
 
-            <!-- <div class="panel-heading">
-                <span class="glyphicon glyphicon-bullhorn"></span>
-                Type de consultation
-            </div>
-            <div class="panel-body">
-                <a href="{{ url_for('site.search', part=advice.part) }}"
-                    data-toggle="popover" title="{{advice.part|part_label}}"
-                    data-content="{{advice.part|part_help}}" data-trigger="hover">
-                    {{ advice.part|part_label }}
-                </a>
-            </div> -->
 
             <!-- <div class="panel-heading">
                 <span class="glyphicon glyphicon-book"></span>
@@ -64,17 +53,8 @@
                 {% endfor %}
             </div> -->
 
-            <!-- <div class="panel-heading">
-                <span class="glyphicon glyphicon-comment"></span>
-                Conclusions
-            </div>
-            <div class="panel-body">
-                {% for meaning in advice.meanings %}
-                <a href="{{url_for('site.search', meaning=meaning) }}" class="label label-primary">{{ meaning }}</a>
-                {% endfor %}
-            </div> -->
 
-            <div class="panel-heading">
+            <!-- <div class="panel-heading">
                 <span class="glyphicon glyphicon-tags"></span>
                 Mots-clés
             </div>
@@ -82,7 +62,7 @@
                 {% for tag in advice.tags %}
                 <a href="{{url_for('site.search', tag=tag) }}" class="label label-primary">{{ tag }}</a>
                 {% endfor %}
-            </div>
+            </div> -->
 
             <!-- <a href
                 class="btn btn-xs btn-info btn-block"

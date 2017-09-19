@@ -20,8 +20,6 @@ class Advice(db.Document):
     subject = db.StringField()
     topics = db.ListField(db.StringField())
     tags = db.ListField(db.StringField())
-    meanings = db.ListField(db.StringField())
-    part = db.IntField()
     content = db.StringField()
 
     def __unicode__(self):

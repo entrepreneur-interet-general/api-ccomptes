@@ -44,8 +44,6 @@ MAPPING = {
             }
         },
         'tags': {'type': 'string', 'index': 'not_analyzed'},
-        'meanings': {'type': 'string', 'index': 'not_analyzed'},
-        'part': {'type': 'short'},
         'content': {
             'type': 'string',
             'analyzer': 'fr_analyzer',
@@ -77,8 +75,6 @@ FACETS = {
     'tag': 'tags',
     'topic': 'topics.raw',
     'session': 'session.raw',
-    'part': 'part',
-    'meaning': 'meanings',
 }
 
 ANALSYS = {
@@ -293,8 +289,6 @@ def index(advice):
             'subject': advice.subject,
             'topics': topics,
             'tags': advice.tags,
-            'meanings': advice.meanings,
-            'part': advice.part,
             'content': advice.content,
         })
     except:

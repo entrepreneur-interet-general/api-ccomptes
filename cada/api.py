@@ -39,8 +39,6 @@ def _serialize(advice):
         'subject': advice.subject,
         'topics': advice.topics,
         'tags': advice.tags,
-        'meanings': advice.meanings,
-        'part': advice.part,
         'content': advice.content,
     }
 

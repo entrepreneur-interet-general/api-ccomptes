@@ -17,22 +17,22 @@ from os.path import isfile, join
 def doc_to_txt(filename):
     '''
         Get the path of a Word document and returns the text of this document
-        
+
         :param filename: The filename of the doc or docx document
         :type filename: str
         :return: The text of the document
         :rtype: str
-        
+
         :Example:
-     
+
         >>> doc_to_txt("/Users/seiteta/Work/quen-dit-la-cour/reports/jf00097342.doc")
         'This is text from a .doc document'
         >>> doc_to_txt("/Users/seiteta/Work/quen-dit-la-cour/reports/jf00136930.docx")
         'This is text from a .docx document'
-        
+
     '''
     full_text = []
-    
+
     if filename.lower().endswith(".doc"):
         print("Converting to txt the doc file:" + filename)
         cmd = ['antiword', filename]
@@ -51,17 +51,17 @@ def doc_to_txt(filename):
         print("Document extension should be either .doc or .docx")
 
     return full_text
-        
+
 
 def clean_text(text):
      '''
          Get a text and returns a cleaned text
-         
+
          :param text: The dirty text
          :type text: str
          :return: The clean text
          :rtype: str
-         
+
          :Example:
          >>> clean_text('This text have lots of\n\n\n')
          'This text have lots of   '
@@ -70,25 +70,25 @@ def clean_text(text):
      '''
      # Replace new lines with spaces
      new_text = text.replace("\n", " ")
- 
+
      # Remove HTML tags
      start = "<"
      end = ">"
      pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
      new_text = re.sub(pattern, '', new_text)
-     
+
      return new_text
 
 
 def list_files(path):
     '''
         Get a path and return a list of all the non-hidden files in this path
-        
+
         :param path: The path of the directory
         :type path: str
         :return: The list of all the non-hidden files
         :rtype: list
-        
+
         :Example:
         >>> list_files('/usr/bin')
         ['nscurl',
@@ -105,16 +105,16 @@ def list_files(path):
 def remove_html_head(filename):
     '''
         Read an HTML file and remove the <head> part
-        
+
         :param filename: The name of the HTML file (including path)
         :type filename: str
         :return: A text containing the HTML without the <head>
         :rtype: str
-        
+
         :Example:
         >>> remove_html_head(path+report_filenames[0])
         '<body>\n  <div class="container">\n   <div class="table-grid">\n ...'
-        
+
     '''
     with open(filename, 'r') as html:
         soup = BeautifulSoup(html, 'html.parser')
@@ -145,14 +145,12 @@ corpus = corpus.merge(meta, on = 'Clé Flora')
 # Generate a DataFrame
 cour = pd.DataFrame (data = np.arange(len(corpus)), columns = ["Numéro de dossier"])
 cour["Administration"] = "Cour des comptes"
-cour["Type"] = "Rapport"
+cour["Type"] = "N/A"
 cour["Année"] = corpus["Date du document"].apply(lambda x:x[6:])
 cour["Séance"] = corpus["Date du document"]
 cour["Objet"] = corpus["Titre"]
-cour["Thème et sous thème"] = "Thème 1"
-cour["Mots clés"] = "Mot clé 1"
-cour["Sens et motivation"] = "Favorable"
-cour["Partie"]= "I"
+cour["Thème et sous thème"] = "N/A"
+cour["Mots clés"] = "N/A"
 cour['Avis'] = corpus["report"].values
 
 # Shorten the report for the import in MongoDB
@@ -162,70 +160,72 @@ cour['Avis'] = cour['Avis'].apply(lambda x: x[7:30000])
 cour.to_csv("cour.csv", index = None)
 
 
-
-# Automatically generate keywords with Tf-Idf
-from sklearn.feature_extraction.text import TfidfVectorizer
-
-french = ["alors", "au", "aux", "aucuns", "aussi", "autre", "avant", "avec", "avoir",
-         "bon", "car", "ce", "cela", "ces", "cette", "ceux", "chaque", "ci", "comme",
-         "comment", "dans", "de", "des", "du", "dedans", "dehors", "depuis", "devrait",
-         "doit", "donc", "dos", "début", "elle", "elles", "en", "encore", "essai",
-         "est", "et", "eu", "fait", "faites", "fois", "font", "hors", "ici", "il",
-         "ils", "je", "juste", "la", "le", "les", "leur", "là", "ma", "maintenant",
-         "mais", "mes", "mine", "moins", "mon", "mot", "même", "ni", "nommés",
-         "notre", "nous", "ou", "où", "ont","par", "parce", "pas", "peut", "peu", "plupart",
-         "pour", "pourquoi", "qu","quand", "que", "quel", "quelle", "quelles", "quels",
-         "qui", "sa", "sans", "ses", "seulement", "si", "sien", "son", "sont",
-         "sous", "soyez", "sujet", "sur", "ta", "tandis", "tellement", "tels",
-         "tes", "ton", "tous", "tout", "trop", "très", "tu", "un", "une", "voient", "vont",
-         "votre", "vous", "vu", "ça", "étaient", "état", "étions", "été", "être",
-         "class", "div", "dsn", "jdc", "td", "tr", "sup", "normal", "toc", "table",
-         "saisie", "texte", "deux", "trois", "quatre", "18", "2001", "2015", "2016", "2017",
-         "madame", "mesdames" , "présidente", "présidentes", "président","monsieur", "ministre",
-         ]
-
-def find_best_phrase(id_report = 0, num_phrases = 10):
-    """
-        Find phrases with the highest tf-idf value
-        Parameters:
-        id_report => ID of a report (integer)
-        num_phrases => Number of phrases to find (integer)
-    """
-    
-    # Train the model
-    tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df = 0, stop_words = french)
-    
-    # Execute the model against our corpus
-    tfidf_matrix =  tf.fit_transform(cour['Avis'].apply(lambda x: clean_text(x)))
-    feature_names = tf.get_feature_names() 
-    
-    # Build a dense matrix because some operations can't be done on sparse matrix
-    dense = tfidf_matrix.todense()
-    
-    # Select the id_report report
-    report = dense[id_report].tolist()[0]
-
-    # Match feature index with real words
-    phrase_scores = [pair for pair in zip(range(0, len(report)), report) if pair[1] > 0]
-    sorted_phrase_scores = sorted(phrase_scores, key=lambda t: t[1] * -1)
-        
-    # Save num_phrases phrases in a dictionnary
-    best_phrases = {}
-    for phrase, score in [(feature_names[word_id], score) for (word_id, score) in sorted_phrase_scores][:num_phrases]:
-        best_phrases[phrase] = score
-                    
-    return best_phrases
-
-
-def get_keywords(document, corpus):
-    best_phrases = find_best_phrase(i, 5)
-    list_best_phrases = list(best_phrases.keys())
-    list_best_phrases = ', '.join(list_best_phrases)
-
-    return list_best_phrases
-
-for i in range(len(cour)):
-    cour["Mots clés"].iloc[i] = get_keywords(i, corpus)
+# This commented block is used to automatically generate keywords for each report
+#==============================================================================
+# # Automatically generate keywords with Tf-Idf
+# from sklearn.feature_extraction.text import TfidfVectorizer
+#
+# french = ["alors", "au", "aux", "aucuns", "aussi", "autre", "avant", "avec", "avoir",
+#          "bon", "car", "ce", "cela", "ces", "cette", "ceux", "chaque", "ci", "comme",
+#          "comment", "dans", "de", "des", "du", "dedans", "dehors", "depuis", "devrait",
+#          "doit", "donc", "dos", "début", "elle", "elles", "en", "encore", "essai",
+#          "est", "et", "eu", "fait", "faites", "fois", "font", "hors", "ici", "il",
+#          "ils", "je", "juste", "la", "le", "les", "leur", "là", "ma", "maintenant",
+#          "mais", "mes", "mine", "moins", "mon", "mot", "même", "ni", "nommés",
+#          "notre", "nous", "ou", "où", "ont","par", "parce", "pas", "peut", "peu", "plupart",
+#          "pour", "pourquoi", "qu","quand", "que", "quel", "quelle", "quelles", "quels",
+#          "qui", "sa", "sans", "ses", "seulement", "si", "sien", "son", "sont",
+#          "sous", "soyez", "sujet", "sur", "ta", "tandis", "tellement", "tels",
+#          "tes", "ton", "tous", "tout", "trop", "très", "tu", "un", "une", "voient", "vont",
+#          "votre", "vous", "vu", "ça", "étaient", "état", "étions", "été", "être",
+#          "class", "div", "dsn", "jdc", "td", "tr", "sup", "normal", "toc", "table",
+#          "saisie", "texte", "deux", "trois", "quatre", "18", "2001", "2015", "2016", "2017",
+#          "madame", "mesdames" , "présidente", "présidentes", "président","monsieur", "ministre",
+#          ]
+#
+# def find_best_phrase(id_report = 0, num_phrases = 10):
+#     """
+#         Find phrases with the highest tf-idf value
+#         Parameters:
+#         id_report => ID of a report (integer)
+#         num_phrases => Number of phrases to find (integer)
+#     """
+#
+#     # Train the model
+#     tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df = 0, stop_words = french)
+#
+#     # Execute the model against our corpus
+#     tfidf_matrix =  tf.fit_transform(cour['Avis'].apply(lambda x: clean_text(x)))
+#     feature_names = tf.get_feature_names()
+#
+#     # Build a dense matrix because some operations can't be done on sparse matrix
+#     dense = tfidf_matrix.todense()
+#
+#     # Select the id_report report
+#     report = dense[id_report].tolist()[0]
+#
+#     # Match feature index with real words
+#     phrase_scores = [pair for pair in zip(range(0, len(report)), report) if pair[1] > 0]
+#     sorted_phrase_scores = sorted(phrase_scores, key=lambda t: t[1] * -1)
+#
+#     # Save num_phrases phrases in a dictionnary
+#     best_phrases = {}
+#     for phrase, score in [(feature_names[word_id], score) for (word_id, score) in sorted_phrase_scores][:num_phrases]:
+#         best_phrases[phrase] = score
+#
+#     return best_phrases
+#
+#
+# def get_keywords(document, corpus):
+#     best_phrases = find_best_phrase(i, 5)
+#     list_best_phrases = list(best_phrases.keys())
+#     list_best_phrases = ', '.join(list_best_phrases)
+#
+#     return list_best_phrases
+#
+# for i in range(len(cour)):
+#     cour["Mots clés"].iloc[i] = get_keywords(i, corpus)
+#==============================================================================
 
 
 # Export to csv

@@ -54,8 +54,6 @@
                 {{ m.filter_label('session', 'Séance', 'calendar', es_date) }}
                 {{ m.filter_label('tag', 'Mot-clé', 'tag') }}
                 {{ m.filter_label('topic', 'Thème', 'book') }}
-                {{ m.filter_label('part', 'Mode de consultation', 'bullhorn', part_label) }}
-                {{ m.filter_label('meaning', 'Conclusion', 'comment') }}
             </div>
         </div>
 
@@ -79,27 +77,20 @@
                         <span class="glyphicon glyphicon-calendar"></span>
                         {{ advice.session.strftime('%d/%m/%Y') }}
                     </a>
-                    {% for topic in advice.topics %}
-                    <!-- <a class="label label-primary" title="Thème"
+                    <!-- {% for topic in advice.topics %}
+                    <a class="label label-primary" title="Thème"
                         href="{{url_for('site.search', topic=topic) }}">
                         <span class="glyphicon glyphicon-book"></span>
                         {{ topic }}
-                    </a> -->
-                    {% endfor %}
-                    {# {% for meaning in advice.meanings %}
-                    <a class="label label-primary" title="Conclusion"
-                        href="{{url_for('site.search', meaning=meaning) }}">
-                        <span class="glyphicon glyphicon-comment"></span>
-                        {{ meaning }}
                     </a>
-                    {% endfor %} #}
-                    {% for tag in advice.tags %}
+                    {% endfor %} -->
+                    <!-- {% for tag in advice.tags %}
                     <a class="label label-default" title="Tag"
                         href="{{url_for('site.search', tag=tag) }}">
                         <span class="glyphicon glyphicon-tag"></span>
                         {{ tag }}
                     </a>
-                    {% endfor %}
+                    {% endfor %} -->
                 </div>
             </li>
             {% else %}
@@ -125,9 +116,7 @@
             <!-- {{ m.facet_filter(facets, 'administration', 'Administrations', 'home') }}
             {{ m.facet_filter(facets, 'session', 'Séances', 'calendar', es_date) }}
             {{ m.facet_filter(facets, 'tag', 'Mots-clés', 'tags') }}
-            {{ m.tree_facet_filter(facets, 'topic', 'Thèmes', 'book') }}
-            {{ m.facet_filter(facets, 'meaning', 'Conclusions', 'comment') }}
-            {{ m.facet_filter(facets, 'part', 'Modes de consultation', 'bullhorn', part_label) }} -->
+            {{ m.tree_facet_filter(facets, 'topic', 'Thèmes', 'book') }} -->
         </div>
 
     </aside>

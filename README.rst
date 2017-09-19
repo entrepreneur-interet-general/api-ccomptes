@@ -91,18 +91,24 @@ You need to add your Sentry DSN to the configuration
     SENTRY_DSN = 'https://xxxxx:xxxxxx@sentry.mydomain.com/id'
 
 
-Piwik
------
+.. Piwik
+  -----
 
-There is an optional Piwik support.
-You simply need to add your Piwik server URL and your Piwik project ID to the configuration:
+  There is an optional Piwik support.
+  You simply need to add your Piwik server URL and your Piwik project ID to the configuration:
 
-.. code-block:: python
+  .. code-block:: python
 
-    PIWIK_URL = 'piwik.mydomain.com'
-    PIWIK_ID = X
+      PIWIK_URL = 'piwik.mydomain.com'
+      PIWIK_ID = X
 
 
-.. image:: https://badges.gitter.im/etalab/cada.svg
-   :alt: Join the chat at https://gitter.im/etalab/cada
-   :target: https://gitter.im/etalab/cada?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+  .. image:: https://badges.gitter.im/etalab/cada.svg
+     :alt: Join the chat at https://gitter.im/etalab/cada
+     :target: https://gitter.im/etalab/cada?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+
+To do
+------
+• Create "theme" for report
+• Create "tag" for report
+• Create "type" for report

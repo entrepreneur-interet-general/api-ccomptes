@@ -18,8 +18,6 @@ HEADER = [
     'Objet',
     'Thème et sous thème',
     'Mots clés',
-    'Sens et motivation',
-    'Partie',
     'Avis'
 ]
 
@@ -35,16 +33,6 @@ def reader(f):
 def writer(f):
     '''CSV writer factory for CADA format'''
     return unicodecsv.writer(f, encoding='utf-8', delimiter=b',', quotechar=b'"')
-
-
-def _part(string):
-    '''Transform a part string (I, II or III) into an integer'''
-    if string == 'I':
-        return 1
-    elif string == 'II':
-        return 2
-    if string == 'III':
-        return 3
 
 
 def cleanup(text):
@@ -63,9 +51,7 @@ def from_row(row):
         subject=cleanup(subject),
         topics=[t.title() for t in cleanup(row[6]).split(', ')],
         tags=[tag.strip() for tag in row[7].split(',') if tag.strip()],
-        meanings=cleanup(row[8]).split(', '),
-        part=_part(row[9]),
-        content=cleanup(row[10]),
+        content=cleanup(row[8]),
     )
 
 
@@ -80,8 +66,6 @@ def to_row(advice):
         advice.subject,
         ', '.join(advice.topics),
         ', '.join(advice.tags),
-        ', '.join(advice.meanings),
-        ('I' * advice.part) if advice.part else '',
         advice.content,
     ]
 
