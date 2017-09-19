@@ -10,7 +10,7 @@
             <form class="col-sm-12 megasearch" action="{{ url_for('site.search') }}">
                 <div class="input-group">
                     <input name="q" class="form-control input-lg"
-                        placeholder="Retrouvez un rapport de la Cour des comptes parmi les {{total}} disponibles {% if total %}({{sessions.from.strftime('%d/%m/%Y')}} au {{sessions.to.strftime('%d/%m/%Y')}}){% endif %}"
+                        placeholder="Retrouvez un rapport de la Cour des comptes parmi les {{total}} disponibles {% if total %}({{publications.from.strftime('%d/%m/%Y')}} au {{publications.to.strftime('%d/%m/%Y')}}){% endif %}"
                         type="text">
                     <div class="input-group-btn">
                         <button class="btn btn-lg btn-primary" type="submit">

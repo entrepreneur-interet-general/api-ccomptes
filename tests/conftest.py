@@ -4,7 +4,7 @@ import pytest
 from pytest_factoryboy import register
 
 from cada import create_app
-from cada.models import db, Advice, PARTS
+from cada.models import db, Advice
 from cada.search import es
 
 
@@ -16,9 +16,8 @@ class AdviceFactory(factory.mongoengine.MongoEngineFactory):
     id = factory.Faker('word')
     administration = factory.Faker('company')
     type = factory.Faker('word')
-    session = factory.Faker('date_time_this_decade', before_now=True, after_now=False)
+    publication = factory.Faker('date_time_this_decade', before_now=True, after_now=False)
     subject = factory.Faker('sentence', nb_words=4)
-    part = factory.Faker('random_element', elements=PARTS.keys())
     content = factory.Faker('paragraph')
 
 

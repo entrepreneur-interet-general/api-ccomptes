@@ -5,7 +5,7 @@
 {% set sorters = {
     'topic': ('Thème', 'alphabet'),
     'administration': ('Administration', 'alphabet'),
-    'session': ('Séance', 'order'),
+    'publication': ('Séance', 'order'),
 } %}
 
 {% block title %}Recherche{% endblock %}
@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-sm-12 label-list">
                 {{ m.filter_label('administration', 'Administration', 'home') }}
-                {{ m.filter_label('session', 'Séance', 'calendar', es_date) }}
+                {{ m.filter_label('publication', 'Séance', 'calendar', es_date) }}
                 {{ m.filter_label('tag', 'Mot-clé', 'tag') }}
                 {{ m.filter_label('topic', 'Thème', 'book') }}
             </div>
@@ -64,18 +64,16 @@
             <li>
                 <a class="title" href="{{ url_for('site.display', id=advice.id) }}">
                     {{ advice.subject|truncate(100) }}
-                    <!-- {{ advice.type.title() }} {{ advice.id }} -->
                 </a>
                 <div class="subtitle">
                     <span class="glyphicon glyphicon-home"></span>
                     {{ advice.administration }}
                 </div>
-                <!-- <div class="excerpt">{{ advice.subject|truncate(100) }}</div> -->
                 <div class="label-list">
                     <a class="label label-info" title="Séance"
-                        href="{{url_for('site.search', session=advice.session.strftime('%Y-%m-%d')) }}">
+                        href="{{url_for('site.search', publication=advice.publication.strftime('%Y-%m-%d')) }}">
                         <span class="glyphicon glyphicon-calendar"></span>
-                        {{ advice.session.strftime('%d/%m/%Y') }}
+                        {{ advice.publication.strftime('%d/%m/%Y') }}
                     </a>
                     <!-- {% for topic in advice.topics %}
                     <a class="label label-primary" title="Thème"
@@ -113,9 +111,9 @@
                     Aucun résultat trouvé
                 {% endif %}
             </div>
-            <!-- {{ m.facet_filter(facets, 'administration', 'Administrations', 'home') }}
-            {{ m.facet_filter(facets, 'session', 'Séances', 'calendar', es_date) }}
-            {{ m.facet_filter(facets, 'tag', 'Mots-clés', 'tags') }}
+            {{ m.facet_filter(facets, 'administration', 'Administrations', 'home') }}
+            {{ m.facet_filter(facets, 'publication', 'Séances', 'calendar', es_date) }}
+            <!-- {{ m.facet_filter(facets, 'tag', 'Mots-clés', 'tags') }}
             {{ m.tree_facet_filter(facets, 'topic', 'Thèmes', 'book') }} -->
         </div>
 

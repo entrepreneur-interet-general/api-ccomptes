@@ -35,7 +35,7 @@ def _serialize(advice):
         'id': advice.id,
         'administration': advice.administration,
         'type': advice.type,
-        'session': advice.session,
+        'publication': advice.publication,
         'subject': advice.subject,
         'topics': advice.topics,
         'tags': advice.tags,

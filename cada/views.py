@@ -16,7 +16,7 @@ from werkzeug import url_decode, url_encode
 from wtforms import TextField, ValidationError
 
 from cada import csv
-from cada.models import Advice, PARTS
+from cada.models import Advice
 from cada.search import search_advices, home_data
 
 DEFAULT_PAGE_SIZE = 20
@@ -119,18 +119,6 @@ def treeize_facet(topics, sep='/'):
         (t, tree[t]['count'], tree[t]['active'], tree[t]['subtopics'])
         for t in sorted(tree, key=lambda k: tree[k]['count'])
     ]
-
-
-@site.app_template_global()
-@site.app_template_filter()
-def part_label(part):
-    return PARTS[int(part)]['label']
-
-
-@site.app_template_global()
-@site.app_template_filter()
-def part_help(part):
-    return PARTS[int(part)]['help']
 
 
 @site.app_template_global()

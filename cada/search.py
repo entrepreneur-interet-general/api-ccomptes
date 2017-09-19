@@ -23,7 +23,7 @@ MAPPING = {
             }
         },
         'type': {'type': 'string', 'index': 'not_analyzed'},
-        'session': {
+        'publication': {
             'type': 'date', 'format': 'YYYY-MM-dd',
             'fields': {
                 'raw': {'type': 'string', 'index': 'not_analyzed'}
@@ -66,7 +66,7 @@ FIELDS = (
 SORTS = {
     'topic': 'topics.raw',
     'administration': 'administration.raw',
-    'session': 'session',
+    'publication': 'publication',
 }
 
 FACETS = {
@@ -74,7 +74,7 @@ FACETS = {
     # 'type': 'type',
     'tag': 'tags',
     'topic': 'topics.raw',
-    'session': 'session.raw',
+    'publication': 'publication.raw',
 }
 
 ANALSYS = {
@@ -250,23 +250,23 @@ def home_data():
                     'size': 20,
                 }
             },
-            "sessions": {
+            "publications": {
                 "stats": {
-                    "field": "session"
+                    "field": "publication"
                 }
             }
         },
     })
 
-    sessions = result.get('aggregations', {}).get('sessions', {})
+    publications = result.get('aggregations', {}).get('publications', {})
 
     return {
         'topics': agg_to_list(result, 'topics'),
         'tag_cloud': agg_to_list(result, 'tags'),
         'total': result['hits']['total'],
-        'sessions': {
-            'from': ts_to_dt(sessions.get('min')),
-            'to': ts_to_dt(sessions.get('max')),
+        'publications': {
+            'from': ts_to_dt(publications.get('min')),
+            'to': ts_to_dt(publications.get('max')),
         },
     }
 
@@ -285,7 +285,7 @@ def index(advice):
             'id': advice.id,
             'administration': advice.administration,
             'type': advice.type,
-            'session': advice.session.strftime('%Y-%m-%d'),
+            'publication': advice.publication.strftime('%Y-%m-%d'),
             'subject': advice.subject,
             'topics': topics,
             'tags': advice.tags,

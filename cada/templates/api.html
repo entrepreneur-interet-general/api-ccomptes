@@ -31,15 +31,13 @@
         <ul>
             <li><code>administration (asc|desc)</code>: tri par administrations</li>
             <li><code>topic (asc|desc)</code>: tri par thémes</li>
-            <li><code>session (asc|desc)</code>: tri par date de séance</li>
+            <li><code>publication (asc|desc)</code>: tri par date de séance</li>
         </ul>
     </li>
     <li><code>administration</code>: filtre sur l'administration spécifiée</li>
     <li><code>tag</code>: filtre sur la tag spécifié (peut-être spécifié plusieurs fois)</li>
     <li><code>topic</code>: filtre sur le thème spécifié</li>
-    <li><code>session</code>: filtre sur la session spécifiée (au format <code>yyyy-mm-dd</code></li>
-    <li><code>part</code>: filtre sur le partie pris (au choix, 1, 2 ou 3)</li>
-    <li><code>meaning</code>: filtre sur les réponses données</li>
+    <li><code>publication</code>: filtre sur la publication spécifiée (au format <code>yyyy-mm-dd</code></li>
     <li><code>page</code>: affiche la page indiquée (en relation avec <code>page_size</code></li>
     <li><code>page_size</code>: spécifie la taille de la pagination (20 par défaut)</li>
 </ul>
@@ -62,8 +60,8 @@
 
 <h3>Exemple</h3>
 <p>Voici un exemple de recherche sur le terme "Paris", triée par dates de séance décroissantes et n'affichant que les 3 premiers éléments</p>
-<p><code>GET {{ url_for('api.search', q='Paris', sort='session desc', page_size=3) }}</code></p>
-<p><pre data-api="{{ url_for('api.search', q='Paris', sort='session desc', page_size=3) }}"></pre></p>
+<p><code>GET {{ url_for('api.search', q='Paris', sort='publication desc', page_size=3) }}</code></p>
+<p><pre data-api="{{ url_for('api.search', q='Paris', sort='publication desc', page_size=3) }}"></pre></p>
 {% endblock %}
 
 
