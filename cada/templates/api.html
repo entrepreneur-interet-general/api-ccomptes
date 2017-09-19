@@ -31,7 +31,7 @@
         <ul>
             <li><code>administration (asc|desc)</code>: tri par administrations</li>
             <li><code>topic (asc|desc)</code>: tri par thémes</li>
-            <li><code>publication (asc|desc)</code>: tri par date de séance</li>
+            <li><code>publication (asc|desc)</code>: tri par date de publication</li>
         </ul>
     </li>
     <li><code>administration</code>: filtre sur l'administration spécifiée</li>
@@ -59,7 +59,7 @@
 </ul>
 
 <h3>Exemple</h3>
-<p>Voici un exemple de recherche sur le terme "Paris", triée par dates de séance décroissantes et n'affichant que les 3 premiers éléments</p>
+<p>Voici un exemple de recherche sur le terme "Paris", triée par dates de publication décroissantes et n'affichant que les 3 premiers éléments</p>
 <p><code>GET {{ url_for('api.search', q='Paris', sort='publication desc', page_size=3) }}</code></p>
 <p><pre data-api="{{ url_for('api.search', q='Paris', sort='publication desc', page_size=3) }}"></pre></p>
 {% endblock %}

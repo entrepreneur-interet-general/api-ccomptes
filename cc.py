@@ -145,9 +145,9 @@ corpus = corpus.merge(meta, on = 'Clé Flora')
 # Generate a DataFrame
 cour = pd.DataFrame (data = np.arange(len(corpus)), columns = ["Numéro de dossier"])
 cour["Administration"] = "Cour des comptes"
-cour["Type"] = "N/A"
+cour["Type"] = "Document"
 cour["Année"] = corpus["Date du document"].apply(lambda x:x[6:])
-cour["Séance"] = corpus["Date du document"]
+cour["Publication"] = corpus["Date du document"]
 cour["Objet"] = corpus["Titre"]
 cour["Thème et sous thème"] = "N/A"
 cour["Mots clés"] = "N/A"

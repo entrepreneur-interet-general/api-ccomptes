@@ -14,7 +14,7 @@ HEADER = [
     'Administration',
     'Type',
     'Année',
-    'Séance',
+    'Publication',
     'Objet',
     'Thème et sous thème',
     'Mots clés',

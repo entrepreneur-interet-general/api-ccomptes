@@ -5,7 +5,7 @@
 {% set sorters = {
     'topic': ('Thème', 'alphabet'),
     'administration': ('Administration', 'alphabet'),
-    'publication': ('Séance', 'order'),
+    'publication': ('Publication', 'order'),
 } %}
 
 {% block title %}Recherche{% endblock %}
@@ -51,7 +51,7 @@
         <div class="row">
             <div class="col-sm-12 label-list">
                 {{ m.filter_label('administration', 'Administration', 'home') }}
-                {{ m.filter_label('publication', 'Séance', 'calendar', es_date) }}
+                {{ m.filter_label('publication', 'Publication', 'calendar', es_date) }}
                 {{ m.filter_label('tag', 'Mot-clé', 'tag') }}
                 {{ m.filter_label('topic', 'Thème', 'book') }}
             </div>
@@ -70,7 +70,7 @@
                     {{ advice.administration }}
                 </div>
                 <div class="label-list">
-                    <a class="label label-info" title="Séance"
+                    <a class="label label-info" title="Publication"
                         href="{{url_for('site.search', publication=advice.publication.strftime('%Y-%m-%d')) }}">
                         <span class="glyphicon glyphicon-calendar"></span>
                         {{ advice.publication.strftime('%d/%m/%Y') }}
@@ -112,7 +112,7 @@
                 {% endif %}
             </div>
             {{ m.facet_filter(facets, 'administration', 'Administrations', 'home') }}
-            {{ m.facet_filter(facets, 'publication', 'Séances', 'calendar', es_date) }}
+            {{ m.facet_filter(facets, 'publication', 'Publications', 'calendar', es_date) }}
             <!-- {{ m.facet_filter(facets, 'tag', 'Mots-clés', 'tags') }}
             {{ m.tree_facet_filter(facets, 'topic', 'Thèmes', 'book') }} -->
         </div>
