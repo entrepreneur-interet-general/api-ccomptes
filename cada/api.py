@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 
 from flask import Blueprint, render_template, jsonify
 
-from cada.models import Advice
-from cada.search import search_advices
+from cada.models import Report
+from cada.search import search_reports
 
 
 api = Blueprint('api', __name__)
@@ -13,33 +13,33 @@ api = Blueprint('api', __name__)
 
 @api.route('/')
 def doc():
-    sample = Advice.objects.first()
+    sample = Report.objects.first()
     return render_template('api.html', sample=sample)
 
 
 @api.route('/search')
 def search():
-    results = search_advices()
-    results['advices'] = [_serialize(a) for a in results['advices']]
+    results = search_reports()
+    results['reports'] = [_serialize(a) for a in results['reports']]
     return jsonify(results)
 
 
 @api.route('/<id>/')
 def display(id):
-    advice = Advice.objects.get_or_404(id=id)
-    return jsonify(_serialize(advice))
+    report = Report.objects.get_or_404(id=id)
+    return jsonify(_serialize(report))
 
 
-def _serialize(advice):
+def _serialize(report):
     return {
-        'id': advice.id,
-        'administration': advice.administration,
-        'type': advice.type,
-        'publication': advice.publication,
-        'subject': advice.subject,
-        'topics': advice.topics,
-        'tags': advice.tags,
-        'content': advice.content,
+        'id': report.id,
+        'administration': report.administration,
+        'type': report.type,
+        'publication': report.publication,
+        'subject': report.subject,
+        'topics': report.topics,
+        'tags': report.tags,
+        'content': report.content,
     }
 
 

@@ -13,7 +13,7 @@ from webassets.script import CommandLineEnvironment
 
 from cada import create_app, csv
 from cada.assets import assets
-from cada.models import Advice
+from cada.models import Report
 from cada.search import es, index
 
 import sys
@@ -51,19 +51,19 @@ def load(patterns, full_reindex):
 
 @manager.command
 def reindex():
-    '''Reindex all advices'''
+    '''Reindex all reports'''
     print('Deleting index {0}'.format(es.index_name))
     if es.indices.exists(es.index_name):
         es.indices.delete(index=es.index_name)
     es.initialize()
 
     idx = 0
-    for idx, advice in enumerate(Advice.objects, 1):
-        index(advice)
+    for idx, report in enumerate(Report.objects, 1):
+        index(report)
         print('.' if idx % 50 else idx, end='')
 
     es.indices.refresh(index=es.index_name)
-    print('\nIndexed {0} advices'.format(idx))
+    print('\nIndexed {0} reports'.format(idx))
 
 
 @manager.option('path', nargs='?', default='static', help='target path')
@@ -95,7 +95,7 @@ def anon():
     '''Check for candidates to anonymization'''
     filename = 'urls_to_check.csv'
 
-    candidates = Advice.objects(__raw__={
+    candidates = Report.objects(__raw__={
         '$or': [
             {'subject': {
                 '$regex': '(Monsieur|Madame|Docteur|Mademoiselle)\s+[^X\s\.]{3}',
@@ -113,8 +113,8 @@ def anon():
         # Generate header
         writer.writerow(csv.ANON_HEADER)
 
-        for idx, advice in enumerate(candidates):
-            writer.writerow(csv.to_anon_row(advice))
+        for idx, report in enumerate(candidates):
+            writer.writerow(csv.to_anon_row(report))
             print('.' if idx % 50 else idx, end='')
         print('')
 
@@ -129,7 +129,7 @@ def fix(filename):
         reader = csv.reader(csvfile)
         reader.next()  # Skip header
         for id, _, sources, dests in reader:
-            advice = Advice.objects.get(id=id)
+            report = Report.objects.get(id=id)
             sources = [s.strip() for s in sources.split(',') if s.strip()]
             dests = [d.strip() for d in dests.split(',') if d.strip()]
             if not len(sources) == len(dests):
@@ -137,10 +137,10 @@ def fix(filename):
                 continue
             for source, dest in zip(sources, dests):
                 print('{0}: Replace {1} with {2}'.format(id, source, dest))
-                advice.subject = advice.subject.replace(source, dest)
-                advice.content = advice.content.replace(source, dest)
-            advice.save()
-            index(advice)
+                report.subject = report.subject.replace(source, dest)
+                report.content = report.content.replace(source, dest)
+            report.save()
+            index(report)
         print('')
     for id in bads:
         print('{0}: Replacements length not matching'.format(id))

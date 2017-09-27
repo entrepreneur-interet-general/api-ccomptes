@@ -16,8 +16,8 @@ from werkzeug import url_decode, url_encode
 from wtforms import TextField, ValidationError
 
 from cada import csv
-from cada.models import Advice
-from cada.search import search_advices, home_data
+from cada.models import Report
+from cada.search import search_reports, home_data
 
 DEFAULT_PAGE_SIZE = 20
 
@@ -133,7 +133,7 @@ def home():
 
 @site.route('/search')
 def search():
-    return render_template('search.html', **search_advices())
+    return render_template('search.html', **search_reports())
 
 
 class AlertAnonForm(FlaskForm):
@@ -146,34 +146,34 @@ class AlertAnonForm(FlaskForm):
 
 @site.route('/<id>/')
 def display(id):
-    advice = Advice.objects.get_or_404(id=id)
-    return render_template('advice.html', advice=advice, form=AlertAnonForm())
+    report = Report.objects.get_or_404(id=id)
+    return render_template('report.html', report=report, form=AlertAnonForm())
 
 
 @site.route('/<id>/alert', methods=['POST'])
 def alert(id):
-    advice = Advice.objects.get_or_404(id=id)
+    report = Report.objects.get_or_404(id=id)
     form = AlertAnonForm()
     if form.validate_on_submit():
         csvfile = StringIO.StringIO()
         writer = csv.writer(csvfile)
         writer.writerow(csv.ANON_HEADER)
-        writer.writerow(csv.to_anon_row(advice))
+        writer.writerow(csv.to_anon_row(report))
         attachment = Attachment(
-            'cada-fix-{0}.csv'.format(advice.id),
+            'cada-fix-{0}.csv'.format(report.id),
             'text/csv',
             csvfile.getvalue()
         )
-        mail.send_message("Défaut d'anonymisation sur l'avis CADA {0}".format(advice.id),
+        mail.send_message("Défaut d'anonymisation sur le rapport de la Cour des comptes {0}".format(report.id),
                           recipients=[site.config['ANON_ALERT_MAIL']],
-                          html=render_template('anon_alert_mail.html', advice=advice, details=form.details.data),
+                          html=render_template('anon_alert_mail.html', report=report, details=form.details.data),
                           attachments=[attachment]
                           )
         flash(
             "<strong>Merci pour votre contribution!</strong> Nous avons bien pris en compte votre signalement.",
             'success'
         )
-        return redirect(url_for('site.display', id=advice.id))
+        return redirect(url_for('site.display', id=report.id))
     else:
         abort(400)
 
@@ -185,7 +185,7 @@ def robots():
 
 @site.route('/sitemap.xml')
 def sitemap():
-    xml = render_template('sitemap.xml', advices=Advice.objects)
+    xml = render_template('sitemap.xml', reports=Report.objects)
     return Response(xml, mimetype='application/xml')
 
 
@@ -198,10 +198,10 @@ def export_csv():
         writer.writerow(csv.HEADER)
         yield csvfile.getvalue()
 
-        for advice in Advice.objects.order_by('id'):
+        for report in Report.objects.order_by('id'):
             csvfile = StringIO.StringIO()
             writer = csv.writer(csvfile)
-            writer.writerow(csv.to_row(advice))
+            writer.writerow(csv.to_row(report))
             yield csvfile.getvalue()
 
     date = datetime.now().date().isoformat()

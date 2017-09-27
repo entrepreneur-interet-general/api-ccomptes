@@ -6,7 +6,7 @@ import unicodecsv
 from flask import url_for
 from datetime import datetime
 
-from cada.models import Advice
+from cada.models import Report
 
 from _csv import field_size_limit
 
@@ -20,7 +20,7 @@ HEADER = [
     'Objet',
     'Thème et sous thème',
     'Mots clés',
-    'Avis',
+    'Rapport',
     'Texte index'
 ]
 
@@ -44,9 +44,9 @@ def cleanup(text):
 
 
 def from_row(row):
-    '''Create an advice from a CSV row'''
+    '''Create an report from a CSV row'''
     subject = (row[5][0].upper() + row[5][1:]) if row[5] else row[5]
-    return Advice.objects.create(
+    return Report.objects.create(
         id=row[0],
         administration=cleanup(row[1]),
         type=row[2],
@@ -59,20 +59,20 @@ def from_row(row):
     )
 
 
-def to_row(advice):
-    '''Serialize an advice into a CSV row'''
+def to_row(report):
+    '''Serialize an report into a CSV row'''
     return [
-        advice.id,
-        advice.administration,
-        advice.type,
-        advice.publication.year,
-        advice.publication.strftime('%d/%m/%Y'),
-        advice.subject,
-        ', '.join(advice.topics),
-        ', '.join(advice.tags),
-        advice.content,
+        report.id,
+        report.administration,
+        report.type,
+        report.publication.year,
+        report.publication.strftime('%d/%m/%Y'),
+        report.subject,
+        ', '.join(report.topics),
+        ', '.join(report.tags),
+        report.content,
     ]
 
 
-def to_anon_row(advice):
-    return (advice.id, url_for('front.display', id=advice.id, _external=True), '', '')
+def to_anon_row(report):
+    return (report.id, url_for('front.display', id=report.id, _external=True), '', '')

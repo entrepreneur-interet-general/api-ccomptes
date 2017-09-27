@@ -1,21 +1,21 @@
 {% extends "base.html" %}
 
-{% block title %}{{ advice.subject|truncate(100) }}{% endblock %}
+{% block title %}{{ report.subject|truncate(100) }}{% endblock %}
 
 {% block content %}
 <div class="row">
     <div class="col-md-9">
         <h1>
-            {{ advice.subject }}
-            <!-- {{ advice.type.title() }} {{ advice.id }} -->
-            <small>Rapport du {{ advice.publication.strftime('%d/%m/%Y') }}</small>
+            {{ report.subject }}
+            <!-- {{ report.type.title() }} {{ report.id }} -->
+            <small>Rapport du {{ report.publication.strftime('%d/%m/%Y') }}</small>
         </h1>
         <!-- <div class="lead subject raw">
-            {{- advice.subject -}}
+            {{- report.subject -}}
         </div> -->
         <!-- <div class="content raw"> -->
           <div class = "content">
-            {{ advice.content|safe }}
+            {{ report.content|safe }}
           </div>
         <!-- </div> -->
     </div>
@@ -26,8 +26,8 @@
                 Juridiction
             </div>
             <div class="panel-body">
-                <a href="{{ url_for('site.search', administration=advice.administration) }}">
-                    {{ advice.administration }}
+                <a href="{{ url_for('site.search', administration=report.administration) }}">
+                    {{ report.administration }}
                 </a>
             </div>
 
@@ -37,7 +37,7 @@
                 Thèmes
             </div>
             <div class="panel-body topics">
-                {% for topic, subtopics in advice.topics|treeize %}
+                {% for topic, subtopics in report.topics|treeize %}
                     <a href="{{url_for('site.search', topic=topic) }}"
                         class="label label-primary topic">
                         <span class="glyphicon glyphicon-folder-{{'open' if subtopics else 'close'}}"></span>
@@ -59,7 +59,7 @@
                 Mots-clés
             </div>
             <div class="panel-body">
-                {% for tag in advice.tags %}
+                {% for tag in report.tags %}
                 <a href="{{url_for('site.search', tag=tag) }}" class="label label-primary">{{ tag }}</a>
                 {% endfor %}
             </div> -->
@@ -88,7 +88,7 @@
                     Aidez à détecter et corriger les défauts d'anonymisation en les signalant avec ce formulaire.
                 </p>
                 <form id="alert-form" method="POST"
-                    action="{{ url_for('site.alert', id=advice.id) }}">
+                    action="{{ url_for('site.alert', id=report.id) }}">
                     {{ form.csrf_token }}
                     <textarea name="details" class="form-control" rows="3"
                         placeholder="Saisissez éventuellement quelques informations complémentaires sur l'erreur"></textarea>

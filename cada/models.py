@@ -6,7 +6,7 @@ from flask_mongoengine import MongoEngine
 db = MongoEngine()
 
 
-class Advice(db.Document):
+class Report(db.Document):
     id = db.StringField(primary_key=True)
     administration = db.StringField()
     type = db.StringField()

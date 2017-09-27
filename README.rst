@@ -6,7 +6,7 @@ Cada
     :target: https://circleci.com/gh/etalab/cada/tree/master
     :alt: Build status
 
-A simplistic interface to search and consult CADA advices.
+A simplistic interface to search and consult CADA reports.
 
 This is the engine behind http://cada.data.gouv.fr.
 

@@ -76,7 +76,7 @@ def clean_text(text):
      end = ">"
      pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
      new_text = re.sub(pattern, '', new_text)
-     
+
      # Remove extra whitespace
      new_text = ' '.join(new_text.split())
 
@@ -156,10 +156,10 @@ cour["Publication"] = corpus["Date du document"]
 cour["Objet"] = corpus["Titre"]
 cour["Thème et sous thème"] = "N/A"
 cour["Mots clés"] = "N/A"
-cour['Avis'] = corpus["report"].values
+cour['Rapport'] = corpus["report"].values
 
 # Shorten reports for Elasticsearch
-cour['Texte index'] = cour['Avis'].apply(lambda x: clean_text(x)[:10000])
+cour['Texte index'] = cour['Rapport'].apply(lambda x: clean_text(x)[:10000])
 
 
 # Export to csv
@@ -201,7 +201,7 @@ cour.to_csv("cour.csv", index = None)
 #     tf = TfidfVectorizer(analyzer='word', ngram_range=(1,3), min_df = 0, stop_words = french)
 #
 #     # Execute the model against our corpus
-#     tfidf_matrix =  tf.fit_transform(cour['Avis'].apply(lambda x: clean_text(x)))
+#     tfidf_matrix =  tf.fit_transform(cour['Rapport'].apply(lambda x: clean_text(x)))
 #     feature_names = tf.get_feature_names()
 #
 #     # Build a dense matrix because some operations can't be done on sparse matrix

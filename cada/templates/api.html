@@ -7,7 +7,7 @@
   <h1>API <small>Documentation</small></h1>
 </div>
 
-<p>L'API de api.ccomptes.fr ne contient que deux points d'entrée:</p>
+<p>L'API de api.ccomptes.fr ne contient que deux points d'entrée :</p>
 <ul>
     <li><code>/api/&lt;id&gt;/</code> : pour l'accès direct à un rapport depuis son identifiant</li>
     <li><code>/api/search/</code> : pour la recherche paginée</li>
@@ -15,10 +15,10 @@
 <p>Le fonctionnement est strictement similaire à celui des pages web.</p>
 
 <h2>Accès direct</h2>
-<p>Cette API permet l'accès direct à un rapport de la Cour des comptes par son identifiant</p>
+<p>Cette API permet l'accès direct à un rapport de la Cour des comptes par son identifiant.</p>
 
 <h3>Exemple</h3>
-<p>Voici un exemple d'accès direct à un rapport au Cour des comptes n°{{ sample.id }}</p>
+<p>Voici un exemple d'accès direct à un rapport au Cour des comptes n°{{ sample.id }} : </p>
 <p><code>GET {{ url_for('api.display', id=sample.id) }}</code></p>
 <p><pre data-api="{{ url_for('api.display', id=sample.id) }}"></pre></p>
 
@@ -44,7 +44,7 @@
 
 <p>La réponse est un objet JSON à 5 attributs :</p>
 <ul>
-    <li><code>advices</code> : une liste triée des rapports correspondants aux critères de recherche</li>
+    <li><code>reports</code> : une liste triée des rapports correspondants aux critères de recherche</li>
     <li><code>page</code> : le numéro de la page courante</li>
     <li><code>page_size</code> : la taille de la pagination</li>
     <li><code>total</code> : le nombre total de rapports retournés par la recherche</li>

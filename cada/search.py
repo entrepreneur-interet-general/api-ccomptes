@@ -8,7 +8,7 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 from flask import current_app, request
 
-from cada.models import Advice
+from cada.models import Report
 
 log = logging.getLogger(__name__)
 
@@ -100,7 +100,7 @@ ANALSYS = {
 }
 
 
-DOCTYPE = 'advice'
+DOCTYPE = 'report'
 DEFAULT_PAGE_SIZE = 20
 
 
@@ -130,7 +130,7 @@ class ElasticSearch(object):
             es.indices.put_mapping(index=self.index_name, doc_type=DOCTYPE, body=MAPPING)
         else:
             es.indices.create(self.index_name, {
-                'mappings': {'advice': MAPPING},
+                'mappings': {'report': MAPPING},
                 'settings': {'analysis': ANALSYS},
             })
 
@@ -185,7 +185,7 @@ def build_sort():
     return [{SORTS[s]: d} for s, d in sorts if s in SORTS]
 
 
-def search_advices():
+def search_reports():
     page = max(int(request.args.get('page', 1)), 1)
     page_size = int(request.args.get('page_size', DEFAULT_PAGE_SIZE))
     start = (page - 1) * page_size
@@ -200,8 +200,8 @@ def search_advices():
     })
 
     ids = [hit['_id'] for hit in result.get('hits', {}).get('hits', [])]
-    advices = Advice.objects.in_bulk(ids)
-    advices = [advices[id] for id in ids]
+    reports = Report.objects.in_bulk(ids)
+    reports = [reports[id] for id in ids]
 
     facets = {}
     for name, content in result.get('aggregations', {}).items():
@@ -213,7 +213,7 @@ def search_advices():
         ]
 
     return {
-        'advices': advices,
+        'reports': reports,
         'facets': facets,
         'page': page,
         'page_size': page_size,
@@ -272,27 +272,27 @@ def home_data():
     }
 
 
-def index(advice):
-    '''Index/Reindex a CADA advice'''
+def index(report):
+    '''Index/Reindex a CADA report'''
     topics = []
-    for topic in advice.topics:
+    for topic in report.topics:
         topics.append(topic)
         parts = topic.split('/')
         if len(parts) > 1:
             topics.append(parts[0])
 
     try:
-        es.index(index=es.index_name, doc_type=DOCTYPE, id=advice.id, body={
-            'id': advice.id,
-            'administration': advice.administration,
-            'type': advice.type,
-            'publication': advice.publication.strftime('%Y-%m-%d'),
-            'subject': advice.subject,
+        es.index(index=es.index_name, doc_type=DOCTYPE, id=report.id, body={
+            'id': report.id,
+            'administration': report.administration,
+            'type': report.type,
+            'publication': report.publication.strftime('%Y-%m-%d'),
+            'subject': report.subject,
             'topics': topics,
-            'tags': advice.tags,
+            'tags': report.tags,
             # The field `content` can be too large to be indexed
-            #'content': advice.content,
-            'short_content': advice.short_content,
+            #'content': report.content,
+            'short_content': report.short_content,
         })
     except:
-        log.exception('Unable to index advice %s', advice.id)
+        log.exception('Unable to index report %s', report.id)

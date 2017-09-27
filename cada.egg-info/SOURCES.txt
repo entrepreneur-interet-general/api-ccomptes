@@ -33,7 +33,7 @@ cada/static/js/cada.js
 cada/static/js/jquery.js
 cada/static/js/placeholders.jquery.js
 cada/templates/404.html
-cada/templates/advice.html
+cada/templates/report.html
 cada/templates/anon_alert_mail.html
 cada/templates/api.html
 cada/templates/base.html

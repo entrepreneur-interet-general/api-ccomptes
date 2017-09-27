@@ -4,14 +4,14 @@ import pytest
 from pytest_factoryboy import register
 
 from cada import create_app
-from cada.models import db, Advice
+from cada.models import db, Report
 from cada.search import es
 
 
 @register
-class AdviceFactory(factory.mongoengine.MongoEngineFactory):
+class ReportFactory(factory.mongoengine.MongoEngineFactory):
     class Meta:
-        model = Advice
+        model = Report
 
     id = factory.Faker('word')
     administration = factory.Faker('company')

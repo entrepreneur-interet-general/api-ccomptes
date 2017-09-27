@@ -60,29 +60,29 @@
         <hr/>
 
         <ul class="list-unstyled search-result">
-            {% for advice in advices %}
+            {% for report in reports %}
             <li>
-                <a class="title" href="{{ url_for('site.display', id=advice.id) }}">
-                    {{ advice.subject|truncate(100) }}
+                <a class="title" href="{{ url_for('site.display', id=report.id) }}">
+                    {{ report.subject|truncate(100) }}
                 </a>
                 <div class="subtitle">
                     <span class="glyphicon glyphicon-home"></span>
-                    {{ advice.administration }}
+                    {{ report.administration }}
                 </div>
                 <div class="label-list">
                     <a class="label label-info" title="Publication"
-                        href="{{url_for('site.search', publication=advice.publication.strftime('%Y-%m-%d')) }}">
+                        href="{{url_for('site.search', publication=report.publication.strftime('%Y-%m-%d')) }}">
                         <span class="glyphicon glyphicon-calendar"></span>
-                        {{ advice.publication.strftime('%d/%m/%Y') }}
+                        {{ report.publication.strftime('%d/%m/%Y') }}
                     </a>
-                    <!-- {% for topic in advice.topics %}
+                    <!-- {% for topic in report.topics %}
                     <a class="label label-primary" title="Thème"
                         href="{{url_for('site.search', topic=topic) }}">
                         <span class="glyphicon glyphicon-book"></span>
                         {{ topic }}
                     </a>
                     {% endfor %} -->
-                    <!-- {% for tag in advice.tags %}
+                    <!-- {% for tag in report.tags %}
                     <a class="label label-default" title="Tag"
                         href="{{url_for('site.search', tag=tag) }}">
                         <span class="glyphicon glyphicon-tag"></span>

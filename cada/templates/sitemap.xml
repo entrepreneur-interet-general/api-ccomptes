@@ -10,9 +10,9 @@
         <changefreq>weekly</changefreq>
         <priority>0.80</priority>
     </url>
-    {% for advice in advices %}
+    {% for report in reports %}
     <url>
-        <loc>{{ url_for('site.display', id=advice.id) }}</loc>
+        <loc>{{ url_for('site.display', id=report.id) }}</loc>
     </url>
     {% endfor %}
 </urlset>

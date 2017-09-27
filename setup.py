@@ -58,7 +58,7 @@ if sys.version_info[0:2] < (2, 7):
 setup(
     name='cada',
     version='0.1.0',
-    description='Search and consult CADA advices',
+    description='Search and consult CADA reports',
     long_description=long_description,
     url='https://github.com/etalab/cada',
     author='Axel Haustant',
