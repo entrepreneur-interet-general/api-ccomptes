@@ -72,18 +72,18 @@
                     {{ report.administration }}
                 </div>
                 <div class="label-list">
-                    <a class="label label-info" title="Publication"
+                    <a class="label label-default" title="Publication"
                         href="{{url_for('site.search', publication=report.publication.strftime('%Y-%m-%d')) }}">
                         <span class="glyphicon glyphicon-calendar"></span>
                         {{ report.publication.strftime('%d/%m/%Y') }}
                     </a>
-                    {# {% for type in advice.types %}
+                    {% for type in report.types %}
                     <a class="label label-default" title="Type de rapport"
                         href="{{url_for('site.search', type=type) }}">
                         <span class="glyphicon glyphicon-book"></span>
-                        {{ report.type }}
+                        {{ type }}
                     </a>
-                    {% endfor %} #}
+                    {% endfor %}
                     <!-- {% for topic in report.topics %}
                     <a class="label label-primary" title="Thème"
                         href="{{url_for('site.search', topic=topic) }}">
