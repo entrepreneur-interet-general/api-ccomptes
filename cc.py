@@ -64,11 +64,15 @@ def clean_text(text):
          :return: The clean text
          :rtype: str
 
-         :Example:
+         :Examples:
          >>> clean_text('This text have lots of\n\n\n')
          'This text have lots of   '
          >>> clean_text('<div>This text have HTML</div>')
          'This text have HTML'
+         >>> clean_text('This text have too much      spaces')
+         'This text have too much spaces'
+         >>> clean_text('Ce texte a des mots inutiles')
+         'texte mots inutiles'
      '''
      # Replace new lines with spaces
      new_text = text.replace("\n", " ")
@@ -103,6 +107,23 @@ def clean_text(text):
                   "vu"]
      new_text = ' '.join([word for word in new_text.split() if word.lower() not in stopwords])
 
+     return new_text
+
+
+def clean_title(text):
+     '''
+         Get a text and returns a cleaned text
+
+         :param text: The dirty text
+         :type text: str
+         :return: The clean text
+         :rtype: str
+
+         :Example:
+         >>> clean_title('This text have [brackets]')
+         'This text have '
+     '''
+     new_text = re.sub('\[.*?\]', '', text)
      return new_text
 
 
@@ -172,12 +193,12 @@ corpus = corpus.merge(meta, on = 'Clé Flora')
 
 # Generate a DataFrame
 cour = pd.DataFrame (data = np.arange(len(corpus)), columns = ["Numéro de dossier"])
-cour["Administration"] = corpus["Juridiction"] + " (" + corpus["Entité Productrice"] + ")"
-cour["Administration"] = cour["Administration"].apply(lambda x : x.capitalize())
+cour["Juridiction"] = corpus["Juridiction"] + " (" + corpus["Entité Productrice"] + ")"
+cour["Juridiction"] = cour["Juridiction"].apply(lambda x : x.capitalize())
 cour["Type"] = corpus["Type document"]
 cour["Année"] = corpus["Date du document"].apply(lambda x:x[6:])
 cour["Publication"] = corpus["Date du document"]
-cour["Objet"] = corpus["Titre"]
+cour["Objet"] = corpus["Titre"].apply(lambda x:clean_title(x))
 cour["Thème et sous thème"] = "N/A"
 cour["Mots clés"] = "N/A"
 cour['Rapport'] = corpus["report"].values
