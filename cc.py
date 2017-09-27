@@ -79,6 +79,27 @@ def clean_text(text):
 
      # Remove extra whitespace
      new_text = ' '.join(new_text.split())
+     
+     # Remove stop words
+     stopwords = ["à", "a", "alors", "au", "aux", "aucuns", "aussi", "autre",
+                  "avant", "avec", "avoir", "avez","bon", "ça", "car", "ce",
+                  "cela", "ces", "cette", "ceux", "chaque", "ci", "comme",
+                  "comment", "dans", "de", "des", "du", "dedans", "dehors",
+                  "depuis", "devrait", "doit", "donc", "dos", "début", "elle",
+                  "elles", "en", "encore", "étaient", "étions", "étant"
+                  "été", "être", "est", "et", "eu", "fait", "faites", "fois",
+                  "font", "hors", "ici", "il", "ils", "je", "juste",
+                  "la", "le", "les", "leur", "lors", "là" ,"ma", "maintenant",
+                  "mais", "mes", "moins", "mon", "même", "ne", "ni",
+                  "notre", "nous", "ou", "où", "ont","par", "parce",
+                  "pas", "peut", "peu", "plupart", "pour", "pourquoi", "qu",
+                  "quand", "que", "quel", "quelle", "quelles", "quels", "qui",
+                  "sa", "sans", "ses", "se", "seulement", "si", "sien", "son",
+                  "sont", "soyez", "sujet", "sur", "ta", "tandis",
+                  "tellement", "tels", "tes", "ton", "tous", "tout", "trop",
+                  "très", "tu", "un", "une", "voient", "vont", "votre", "vous",
+                  "vu"]
+     new_text = ' '.join([word for word in new_text.split() if word.lower() not in stopwords])
 
      return new_text
 
@@ -159,7 +180,7 @@ cour["Mots clés"] = "N/A"
 cour['Rapport'] = corpus["report"].values
 
 # Shorten reports for Elasticsearch
-cour['Texte index'] = cour['Rapport'].apply(lambda x: clean_text(x)[:10000])
+cour['Texte index'] = cour['Rapport'].apply(lambda x: clean_text(x)[:30000])
 
 
 # Export to csv
