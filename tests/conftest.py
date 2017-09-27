@@ -14,7 +14,7 @@ class ReportFactory(factory.mongoengine.MongoEngineFactory):
         model = Report
 
     id = factory.Faker('word')
-    administration = factory.Faker('company')
+    juridiction = factory.Faker('company')
     type = factory.Faker('word')
     publication = factory.Faker('date_time_this_decade', before_now=True, after_now=False)
     subject = factory.Faker('sentence', nb_words=4)

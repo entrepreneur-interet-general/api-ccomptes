@@ -33,7 +33,7 @@ def display(id):
 def _serialize(report):
     return {
         'id': report.id,
-        'administration': report.administration,
+        'juridiction': report.juridiction,
         'types': report.types,
         'publication': report.publication,
         'subject': report.subject,

@@ -13,7 +13,7 @@ from _csv import field_size_limit
 
 HEADER = [
     'Numéro de dossier',
-    'Administration',
+    'Juridiction',
     'Type',
     'Année',
     'Publication',
@@ -48,7 +48,7 @@ def from_row(row):
     subject = (row[5][0].upper() + row[5][1:]) if row[5] else row[5]
     return Report.objects.create(
         id=row[0],
-        administration=cleanup(row[1]),
+        juridiction=cleanup(row[1]),
         types=cleanup(row[2]).split(', '),
         publication=datetime.strptime(row[4], '%d/%m/%Y'),
         subject=cleanup(subject),
@@ -63,7 +63,7 @@ def to_row(report):
     '''Serialize an report into a CSV row'''
     return [
         report.id,
-        report.administration,
+        report.juridiction,
         report.type,
         report.publication.year,
         report.publication.strftime('%d/%m/%Y'),

@@ -75,7 +75,7 @@
 {% macro filter_label(name, label, icon=None, formatter=None) %}
 {% set values = request.args.getlist(name) or [] %}
 {% for value in values  %}
-<span class="tag label label-info" title="{{ label }}">
+<span class="tag label label-primary" title="{{ label }}">
     {% if icon %}
     <span class="glyphicon glyphicon-{{ icon }}"></span>
     {% endif %}

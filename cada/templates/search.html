@@ -4,7 +4,7 @@
 
 {% set sorters = {
     'topic': ('Thème', 'alphabet'),
-    'administration': ('Administration', 'alphabet'),
+    'juridiction': ('Juridiction', 'alphabet'),
     'publication': ('Publication', 'order'),
     'type': ('Type de rapport', 'alphabet'),
 } %}
@@ -51,7 +51,7 @@
 
         <div class="row">
             <div class="col-sm-12 label-list">
-                {{ m.filter_label('administration', 'Administration', 'home') }}
+                {{ m.filter_label('juridiction', 'Juridiction', 'home') }}
                 {{ m.filter_label('publication', 'Publication', 'calendar', es_date) }}
                 {{ m.filter_label('type', 'Type de rapport', 'book') }}
                 <!-- {{ m.filter_label('tag', 'Mot-clé', 'tag') }}
@@ -69,7 +69,7 @@
                 </a>
                 <div class="subtitle">
                     <span class="glyphicon glyphicon-home"></span>
-                    {{ report.administration }}
+                    {{ report.juridiction }}
                 </div>
                 <div class="label-list">
                     <a class="label label-default" title="Publication"
@@ -120,7 +120,7 @@
                     Aucun résultat trouvé
                 {% endif %}
             </div>
-            {{ m.facet_filter(facets, 'administration', 'Administrations', 'home') }}
+            {{ m.facet_filter(facets, 'juridiction', 'Juridictions', 'home') }}
             {{ m.facet_filter(facets, 'publication', 'Publications', 'calendar', es_date) }}
             {{ m.facet_filter(facets, 'type', 'Type de rapport', 'book') }}
             <!-- {{ m.facet_filter(facets, 'tag', 'Mots-clés', 'tags') }}

@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 MAPPING = {
     'properties': {
         'id': {'type': 'string', 'index': 'not_analyzed'},
-        'administration': {
+        'juridiction': {
             'type': 'string',
             'analyzer': 'fr_analyzer',
             'fields': {
@@ -59,19 +59,19 @@ FIELDS = (
     'id^5',
     'subject^4',
     'short_content^3',
-    'administration',
+    'juridiction',
     'topics',
     'tags',
 )
 
 SORTS = {
     'topic': 'topics.raw',
-    'administration': 'administration.raw',
+    'juridiction': 'juridiction.raw',
     'publication': 'publication',
 }
 
 FACETS = {
-    'administration': 'administration.raw',
+    'juridiction': 'juridiction.raw',
     'type': 'types',
     'tag': 'tags',
     'topic': 'topics.raw',
@@ -288,7 +288,7 @@ def index(report):
     try:
         es.index(index=es.index_name, doc_type=DOCTYPE, id=report.id, body={
             'id': report.id,
-            'administration': report.administration,
+            'juridiction': report.juridiction,
             'types': report.types,
             'publication': report.publication.strftime('%Y-%m-%d'),
             'subject': report.subject,
