@@ -22,7 +22,7 @@ MAPPING = {
                 'raw': {'type': 'string', 'index': 'not_analyzed'}
             }
         },
-        'type': {'type': 'string', 'index': 'not_analyzed'},
+        'types': {'type': 'string', 'index': 'not_analyzed'},
         'publication': {
             'type': 'date', 'format': 'YYYY-MM-dd',
             'fields': {
@@ -72,7 +72,7 @@ SORTS = {
 
 FACETS = {
     'administration': 'administration.raw',
-    # 'type': 'type',
+    'type': 'types',
     'tag': 'tags',
     'topic': 'topics.raw',
     'publication': 'publication.raw',
@@ -241,6 +241,9 @@ def home_data():
         'query': {'match_all': {}},
         'size': 0,
         'aggs': {
+            'type': {
+                'terms': {'field': 'type', 'size': 20}
+            },
             'tags': {
                 'terms': {'field': 'tags', 'size': 20}
             },
@@ -262,6 +265,7 @@ def home_data():
     publications = result.get('aggregations', {}).get('publications', {})
 
     return {
+        'type': agg_to_list(result, 'type'),
         'topics': agg_to_list(result, 'topics'),
         'tag_cloud': agg_to_list(result, 'tags'),
         'total': result['hits']['total'],
@@ -285,12 +289,12 @@ def index(report):
         es.index(index=es.index_name, doc_type=DOCTYPE, id=report.id, body={
             'id': report.id,
             'administration': report.administration,
-            'type': report.type,
+            'types': report.types,
             'publication': report.publication.strftime('%Y-%m-%d'),
             'subject': report.subject,
             'topics': topics,
             'tags': report.tags,
-            # The field `content` can be too large to be indexed
+            # The field `content` is sometime too large to be indexed
             #'content': report.content,
             'short_content': report.short_content,
         })

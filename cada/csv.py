@@ -49,7 +49,7 @@ def from_row(row):
     return Report.objects.create(
         id=row[0],
         administration=cleanup(row[1]),
-        type=row[2],
+        types=cleanup(row[2]).split(', '),
         publication=datetime.strptime(row[4], '%d/%m/%Y'),
         subject=cleanup(subject),
         topics=[t.title() for t in cleanup(row[6]).split(', ')],

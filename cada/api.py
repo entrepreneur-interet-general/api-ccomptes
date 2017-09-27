@@ -34,7 +34,7 @@ def _serialize(report):
     return {
         'id': report.id,
         'administration': report.administration,
-        'type': report.type,
+        'types': report.types,
         'publication': report.publication,
         'subject': report.subject,
         'topics': report.topics,

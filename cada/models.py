@@ -9,7 +9,7 @@ db = MongoEngine()
 class Report(db.Document):
     id = db.StringField(primary_key=True)
     administration = db.StringField()
-    type = db.StringField()
+    types = db.ListField(db.StringField())
     publication = db.DateTimeField()
     subject = db.StringField()
     topics = db.ListField(db.StringField())

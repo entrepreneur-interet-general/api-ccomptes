@@ -6,6 +6,7 @@
     'topic': ('Thème', 'alphabet'),
     'administration': ('Administration', 'alphabet'),
     'publication': ('Publication', 'order'),
+    'type': ('Type de rapport', 'alphabet'),
 } %}
 
 {% block title %}Recherche{% endblock %}
@@ -52,8 +53,9 @@
             <div class="col-sm-12 label-list">
                 {{ m.filter_label('administration', 'Administration', 'home') }}
                 {{ m.filter_label('publication', 'Publication', 'calendar', es_date) }}
-                {{ m.filter_label('tag', 'Mot-clé', 'tag') }}
-                {{ m.filter_label('topic', 'Thème', 'book') }}
+                {{ m.filter_label('type', 'Type de rapport', 'book') }}
+                <!-- {{ m.filter_label('tag', 'Mot-clé', 'tag') }}
+                {{ m.filter_label('topic', 'Thème', 'book') }} -->
             </div>
         </div>
 
@@ -75,6 +77,13 @@
                         <span class="glyphicon glyphicon-calendar"></span>
                         {{ report.publication.strftime('%d/%m/%Y') }}
                     </a>
+                    {# {% for type in advice.types %}
+                    <a class="label label-default" title="Type de rapport"
+                        href="{{url_for('site.search', type=type) }}">
+                        <span class="glyphicon glyphicon-book"></span>
+                        {{ report.type }}
+                    </a>
+                    {% endfor %} #}
                     <!-- {% for topic in report.topics %}
                     <a class="label label-primary" title="Thème"
                         href="{{url_for('site.search', topic=topic) }}">
@@ -113,6 +122,7 @@
             </div>
             {{ m.facet_filter(facets, 'administration', 'Administrations', 'home') }}
             {{ m.facet_filter(facets, 'publication', 'Publications', 'calendar', es_date) }}
+            {{ m.facet_filter(facets, 'type', 'Type de rapport', 'book') }}
             <!-- {{ m.facet_filter(facets, 'tag', 'Mots-clés', 'tags') }}
             {{ m.tree_facet_filter(facets, 'topic', 'Thèmes', 'book') }} -->
         </div>
