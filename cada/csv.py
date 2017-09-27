@@ -8,6 +8,8 @@ from datetime import datetime
 
 from cada.models import Advice
 
+from _csv import field_size_limit
+
 
 HEADER = [
     'Numéro de dossier',
@@ -18,7 +20,8 @@ HEADER = [
     'Objet',
     'Thème et sous thème',
     'Mots clés',
-    'Avis'
+    'Avis',
+    'Texte index'
 ]
 
 
@@ -37,7 +40,7 @@ def writer(f):
 
 def cleanup(text):
     '''Sanitize text field from HTML encoded caracters'''
-    return text.replace('&quot;', '"').replace('&amp;', '&')
+    return text.replace('&quot;', '"').replace('&amp;', '&').replace('\uf06e', '•')
 
 
 def from_row(row):
@@ -52,6 +55,7 @@ def from_row(row):
         topics=[t.title() for t in cleanup(row[6]).split(', ')],
         tags=[tag.strip() for tag in row[7].split(',') if tag.strip()],
         content=cleanup(row[8]),
+        short_content=cleanup(row[9])
     )
 
 

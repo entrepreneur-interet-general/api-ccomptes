@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}{{ advice.type.title() }} {{ advice.id }}{% endblock %}
+{% block title %}{{ advice.subject|truncate(100) }}{% endblock %}
 
 {% block content %}
 <div class="row">

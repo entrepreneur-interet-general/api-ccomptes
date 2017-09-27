@@ -15,6 +15,7 @@ class Advice(db.Document):
     topics = db.ListField(db.StringField())
     tags = db.ListField(db.StringField())
     content = db.StringField()
+    short_content = db.StringField()
 
     def __unicode__(self):
         return self.subject

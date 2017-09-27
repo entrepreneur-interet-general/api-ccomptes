@@ -76,6 +76,9 @@ def clean_text(text):
      end = ">"
      pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
      new_text = re.sub(pattern, '', new_text)
+     
+     # Remove extra whitespace
+     new_text = ' '.join(new_text.split())
 
      return new_text
 
@@ -113,12 +116,14 @@ def remove_html_head(filename):
 
         :Example:
         >>> remove_html_head(path+report_filenames[0])
-        '<body>\n  <div class="container">\n   <div class="table-grid">\n ...'
+        '<div><div class="table-grid">\n    <p>\n     <table class="table"> ...'
 
     '''
     with open(filename, 'r') as html:
         soup = BeautifulSoup(html, 'html.parser')
-        text = soup.prettify()[586:-18] # These numbers work for HTML files created with my doc_to_HTML program
+        text = soup.prettify()[622:-18] # These numbers work for HTML files created with my doc_to_HTML program
+        text = "<div>" + text
+
     return text
 
 
@@ -153,14 +158,15 @@ cour["Thème et sous thème"] = "N/A"
 cour["Mots clés"] = "N/A"
 cour['Avis'] = corpus["report"].values
 
-# Shorten the report for the import in MongoDB
-cour['Avis'] = cour['Avis'].apply(lambda x: x[7:30000])
+# Shorten reports for Elasticsearch
+cour['Texte index'] = cour['Avis'].apply(lambda x: clean_text(x)[:10000])
+
 
 # Export to csv
 cour.to_csv("cour.csv", index = None)
 
 
-# This commented block is used to automatically generate keywords for each report
+# This commented part can be used to automatically generate keywords for each report
 #==============================================================================
 # # Automatically generate keywords with Tf-Idf
 # from sklearn.feature_extraction.text import TfidfVectorizer

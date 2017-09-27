@@ -16,6 +16,9 @@ from cada.assets import assets
 from cada.models import Advice
 from cada.search import es, index
 
+import sys
+csv.field_size_limit(sys.maxsize)
+
 manager = Manager(create_app)
 
 # Turn on debugger by default and reloader

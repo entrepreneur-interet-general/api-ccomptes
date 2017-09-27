@@ -44,7 +44,8 @@ MAPPING = {
             }
         },
         'tags': {'type': 'string', 'index': 'not_analyzed'},
-        'content': {
+        'content': {'type': 'string', 'index': 'not_analyzed'},
+        'short_content': {
             'type': 'string',
             'analyzer': 'fr_analyzer',
             'fields': {
@@ -57,7 +58,7 @@ MAPPING = {
 FIELDS = (
     'id^5',
     'subject^4',
-    'content^3',
+    'short_content^3',
     'administration',
     'topics',
     'tags',
@@ -289,7 +290,9 @@ def index(advice):
             'subject': advice.subject,
             'topics': topics,
             'tags': advice.tags,
-            'content': advice.content,
+            # The field `content` can be too large to be indexed
+            #'content': advice.content,
+            'short_content': advice.short_content,
         })
     except:
         log.exception('Unable to index advice %s', advice.id)
