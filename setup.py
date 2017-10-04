@@ -58,14 +58,15 @@ if sys.version_info[0:2] < (2, 7):
 setup(
     name='ccomptes',
     version='0.1.0',
-    description='Search and consult CCOMPTES reports',
+    description='Search and consult Cour des comptes reports',
     long_description=long_description,
-    url='https://github.com/etalab/ccomptes',
+    url='https://github.com/eig-2017/api-ccomptes',
     author='Axel Haustant',
     author_email='axel@data.gouv.fr',
     packages=find_packages(),
     include_package_data=True,
     install_requires=install_requires,
+    zip_safe=False,
     extras_require={
         'sentry': pip('sentry.pip'),
         'test': pip('test.pip'),
