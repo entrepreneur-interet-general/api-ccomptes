@@ -87,24 +87,24 @@ def clean_text(text):
      new_text = ' '.join(new_text.split())
 
      # Remove stop words
-     stopwords = ["à", "a", "alors", "au", "aux", "aucuns", "aussi", "autre",
-                  "avant", "avec", "avoir", "avez","bon", "ça", "car", "ce",
-                  "cela", "ces", "cette", "ceux", "chaque", "ci", "comme",
-                  "comment", "dans", "de", "des", "du", "dedans", "dehors",
-                  "depuis", "devrait", "doit", "donc", "dos", "début", "elle",
-                  "elles", "en", "encore", "étaient", "étions", "étant"
-                  "été", "être", "est", "et", "eu", "fait", "faites", "fois",
-                  "font", "hors", "ici", "il", "ils", "je", "juste",
-                  "la", "le", "les", "leur", "lors", "là" ,"ma", "maintenant",
-                  "mais", "mes", "moins", "mon", "même", "ne", "ni",
-                  "notre", "nous", "ou", "où", "ont","par", "parce",
-                  "pas", "peut", "peu", "plupart", "pour", "pourquoi", "qu",
-                  "quand", "que", "quel", "quelle", "quelles", "quels", "qui",
-                  "sa", "sans", "ses", "se", "seulement", "si", "sien", "son",
-                  "sont", "soyez", "sujet", "sur", "ta", "tandis",
-                  "tellement", "tels", "tes", "ton", "tous", "tout", "trop",
-                  "très", "tu", "un", "une", "voient", "vont", "votre", "vous",
-                  "vu"]
+     stopwords = [u"à", u"a", u"alors", u"au", u"aux", u"aucuns", u"aussi", u"autre",
+                  u"avant", u"avec", u"avoir", u"avez", u"bon", u"ça", u"car", u"ce",
+                  u"cela", u"ces", u"cette", u"ceux", u"chaque", u"ci", u"comme",
+                  u"comment", u"dans", u"de", u"des", u"du", u"dedans", u"dehors",
+                  u"depuis", u"devrait", u"doit", u"donc", u"dos", u"début", u"elle",
+                  u"elles", u"en", u"encore", u"étaient", u"étions", u"étant"
+                  u"été", u"être", u"est", u"et", u"eu", u"fait", u"faites", u"fois",
+                  u"font", u"hors", u"ici", u"il", u"ils", u"je", u"juste",
+                  u"la", u"le", u"les", u"leur", u"lors", u"là" ,"ma", u"maintenant",
+                  u"mais", u"mes", u"moins", u"mon", u"même", u"ne", u"ni",
+                  u"notre", u"nous", u"ou", u"où", u"ont","par", u"parce",
+                  u"pas", u"peut", u"peu", u"plupart", u"pour", u"pourquoi", u"qu",
+                  u"quand", u"que", u"quel", u"quelle", u"quelles", u"quels", u"qui",
+                  u"sa", u"sans", u"ses", u"se", u"seulement", u"si", u"sien", u"son",
+                  u"sont", u"soyez", u"sujet", u"sur", u"ta", u"tandis",
+                  u"tellement", u"tels", u"tes", u"ton", u"tous", u"tout", u"trop",
+                  u"très", u"tu", u"un", u"une", u"voient", u"vont", u"votre", u"vous",
+                  u"vu"]
      new_text = ' '.join([word for word in new_text.split() if word.lower() not in stopwords])
 
      return new_text
@@ -183,32 +183,32 @@ report_filenames = [filename for filename in report_filenames if filename.endswi
 report_txt = [remove_html_head(path + filename) for filename in report_filenames]
 
 # Load this list in a pandas DataFrame
-corpus = pd.DataFrame(data = report_txt, index = report_filenames, columns = ["report"])
+corpus = pd.DataFrame(data = report_txt, index = report_filenames, columns = [u"report"])
 
 # Load metadata associated with the file
 meta = pd.read_csv(path + "metadonnees.csv", encoding ='ISO-8859-1', sep = ";")
-corpus['Clé Flora'] = corpus.index
-corpus['Clé Flora'] = corpus['Clé Flora'].apply(lambda x: int(x[:6]))
-corpus = corpus.merge(meta, on = 'Clé Flora')
+corpus[u"Clé Flora"] = corpus.index
+corpus[u"Clé Flora"] = corpus[u"Clé Flora"].apply(lambda x: int(x[:6]))
+corpus = corpus.merge(meta, on = u"Clé Flora")
 
 # Generate a DataFrame
-cour = pd.DataFrame (data = np.arange(len(corpus)), columns = ["Numéro de dossier"])
-cour["Juridiction"] = corpus["Juridiction"] + " (" + corpus["Entité Productrice"] + ")"
-cour["Juridiction"] = cour["Juridiction"].apply(lambda x : x.capitalize())
-cour["Type"] = corpus["Type document"]
-cour["Année"] = corpus["Date du document"].apply(lambda x:x[6:])
-cour["Publication"] = corpus["Date du document"]
-cour["Objet"] = corpus["Titre"].apply(lambda x:clean_title(x))
-cour["Thème et sous thème"] = "N/A"
-cour["Mots clés"] = "N/A"
-cour['Rapport'] = corpus["report"].values
+cour = pd.DataFrame (data = np.arange(len(corpus)), columns = [u"Numéro de dossier"])
+cour[u"Juridiction"] = corpus[u"Juridiction"] + " (" + corpus[u"Entité Productrice"] + ")"
+cour[u"Juridiction"] = cour[u"Juridiction"].apply(lambda x : x.capitalize())
+cour[u"Type"] = corpus[u"Type document"]
+cour[u"Année"] = corpus[u"Date du document"].apply(lambda x:x[6:])
+cour[u"Publication"] = corpus[u"Date du document"]
+cour[u"Objet"] = corpus[u"Titre"].apply(lambda x:clean_title(x))
+cour[u"Thème et sous thème"] = u"N/A"
+cour[u"Mots clés"] = u"N/A"
+cour[u"Rapport"] = corpus[u"report"].values
 
 # Shorten reports for Elasticsearch
-cour['Texte index'] = cour['Rapport'].apply(lambda x: clean_text(x)[:30000])
+cour[u"Texte index"] = cour[u"Rapport"].apply(lambda x: clean_text(x)[:30000])
 
 
 # Export to csv
-cour.to_csv("data.csv", index = None)
+cour.to_csv("data.csv", index = None, encoding='utf-8')
 
 
 # This commented part can be used to automatically generate keywords for each report
