@@ -15,7 +15,7 @@ from jinja2 import Markup
 from werkzeug import url_decode, url_encode
 from wtforms import TextField, ValidationError
 
-from cccomptes import csv
+from cccomptes import csvcustom
 from cccomptes.models import Report
 from cccomptes.search import search_reports, home_data
 
@@ -156,9 +156,9 @@ def alert(id):
     form = AlertAnonForm()
     if form.validate_on_submit():
         csvfile = StringIO.StringIO()
-        writer = csv.writer(csvfile)
-        writer.writerow(csv.ANON_HEADER)
-        writer.writerow(csv.to_anon_row(report))
+        writer = csvcustom.writer(csvfile)
+        writer.writerow(csvcustom.ANON_HEADER)
+        writer.writerow(csvcustom.to_anon_row(report))
         attachment = Attachment(
             'cccomptes-fix-{0}.csv'.format(report.id),
             'text/csv',
@@ -193,15 +193,15 @@ def sitemap():
 def export_csv():
     def generate():
         csvfile = StringIO.StringIO()
-        writer = csv.writer(csvfile)
+        writer = csvcustom.writer(csvfile)
         # Generate header
-        writer.writerow(csv.HEADER)
+        writer.writerow(csvcustom.HEADER)
         yield csvfile.getvalue()
 
         for report in Report.objects.order_by('id'):
             csvfile = StringIO.StringIO()
-            writer = csv.writer(csvfile)
-            writer.writerow(csv.to_row(report))
+            writer = csvcustom.writer(csvfile)
+            writer.writerow(csvcustom.to_row(report))
             yield csvfile.getvalue()
 
     date = datetime.now().date().isoformat()

@@ -2,7 +2,7 @@ import io
 
 from flask import url_for
 
-from cccomptes import csv
+from cccomptes import csvcustom
 
 
 def test_export_csv_empty(client):
@@ -10,7 +10,7 @@ def test_export_csv_empty(client):
     assert response.status_code == 200
     assert response.mimetype == 'text/csv'
     assert response.is_streamed
-    reader = csv.reader(io.BytesIO(response.data))
+    reader = csvcustom.reader(io.BytesIO(response.data))
     assert len([row for row in reader]) == 1
 
 
@@ -21,5 +21,5 @@ def test_export_csv_with_content(client, report_factory):
     assert response.status_code == 200
     assert response.mimetype == 'text/csv'
     assert response.is_streamed
-    reader = csv.reader(io.BytesIO(response.data))
+    reader = csvcustom.reader(io.BytesIO(response.data))
     assert len([row for row in reader]) == 1 + nb_reports

@@ -7,7 +7,7 @@ cccomptes/__init__.py
 cccomptes/api.py
 cccomptes/assets.py
 cccomptes/commands.py
-cccomptes/csv.py
+cccomptes/csvcustom.py
 cccomptes/models.py
 cccomptes/search.py
 cccomptes/views.py

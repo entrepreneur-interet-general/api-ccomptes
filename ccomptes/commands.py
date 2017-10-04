@@ -11,13 +11,13 @@ from sys import exit
 from flask_script import Manager, Server, prompt_bool
 from webassets.script import CommandLineEnvironment
 
-from cccomptes import create_app, csv
+from cccomptes import create_app, csvcustom
 from cccomptes.assets import assets
 from cccomptes.models import Report
 from cccomptes.search import es, index
 
 import sys
-csv.field_size_limit(sys.maxsize)
+csvcustom.field_size_limit(sys.maxsize)
 
 manager = Manager(create_app)
 
@@ -38,11 +38,11 @@ def load(patterns, full_reindex):
         for filename in iglob(pattern):
             print('Loading', filename)
             with open(filename) as f:
-                reader = csv.reader(f)
+                reader = csvcustom.reader(f)
                 # Skip header
                 reader.next()
                 for idx, row in enumerate(reader, 1):
-                    csv.from_row(row)
+                    csvcustom.from_row(row)
                     print('.' if idx % 50 else idx, end='')
                 print('\nProcessed {0} rows'.format(idx))
     if full_reindex:
@@ -109,12 +109,12 @@ def anon():
     })
 
     with open(filename, 'wb') as csvfile:
-        writer = csv.writer(csvfile)
+        writer = csvcustom.writer(csvfile)
         # Generate header
-        writer.writerow(csv.ANON_HEADER)
+        writer.writerow(csvcustom.ANON_HEADER)
 
         for idx, report in enumerate(candidates):
-            writer.writerow(csv.to_anon_row(report))
+            writer.writerow(csvcustom.to_anon_row(report))
             print('.' if idx % 50 else idx, end='')
         print('')
 
@@ -126,7 +126,7 @@ def anon():
 def fix(filename):
     bads = []
     with open(filename) as csvfile:
-        reader = csv.reader(csvfile)
+        reader = csvcustom.reader(csvfile)
         reader.next()  # Skip header
         for id, _, sources, dests in reader:
             report = Report.objects.get(id=id)

@@ -18,39 +18,39 @@ from os.path import isfile, join
 # def doc_to_txt(filename):
 #     '''
 #         Get the path of a Word document and returns the text of this document
-# 
+#
 #         :param filename: The filename of the doc or docx document
 #         :type filename: str
 #         :return: The text of the document
 #         :rtype: str
-# 
+#
 #         :Example:
-# 
+#
 #         >>> doc_to_txt("/Users/seiteta/Work/quen-dit-la-cour/reports/jf00097342.doc")
 #         'This is text from a .doc document'
 #         >>> doc_to_txt("/Users/seiteta/Work/quen-dit-la-cour/reports/jf00136930.docx")
 #         'This is text from a .docx document'
-# 
+#
 #     '''
 #     full_text = []
-# 
+#
 #     if filename.lower().endswith(".doc"):
 #         print("Converting to txt the doc file:" + filename)
 #         cmd = ['antiword', filename]
 #         p = Popen(cmd, stdout=PIPE)
 #         stdout, stderr = p.communicate()
 #         full_text = stdout.decode()
-# 
+#
 #     elif filename.lower().endswith(".docx"):
 #         print("Converting to txt the docx file:" + filename)
 #         doc = docx.Document(filename)
 #         for para in doc.paragraphs:
 #             full_text.append(para.text)
 #         full_text = '\n'.join(full_text)
-# 
+#
 #     else :
 #         print("Document extension should be either .doc or .docx")
-# 
+#
 #     return full_text
 #==============================================================================
 
@@ -85,7 +85,7 @@ def clean_text(text):
 
      # Remove extra whitespace
      new_text = ' '.join(new_text.split())
-     
+
      # Remove stop words
      stopwords = ["à", "a", "alors", "au", "aux", "aucuns", "aussi", "autre",
                   "avant", "avec", "avoir", "avez","bon", "ça", "car", "ce",
@@ -208,7 +208,7 @@ cour['Texte index'] = cour['Rapport'].apply(lambda x: clean_text(x)[:30000])
 
 
 # Export to csv
-cour.to_csv("cour.csv", index = None)
+cour.to_csv("data.csv", index = None)
 
 
 # This commented part can be used to automatically generate keywords for each report
@@ -277,7 +277,3 @@ cour.to_csv("cour.csv", index = None)
 # for i in range(len(cour)):
 #     cour["Mots clés"].iloc[i] = get_keywords(i, corpus)
 #==============================================================================
-
-
-# Export to csv
-cour.to_csv("cour.csv", index = None)
