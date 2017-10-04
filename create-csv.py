@@ -165,7 +165,7 @@ def remove_html_head(filename):
     '''
     with open(filename, 'r') as html:
         soup = BeautifulSoup(html, 'html.parser')
-        text = soup.prettify()[631:-18] # These numbers work for HTML files created with my doc_to_HTML program
+        text = soup.prettify()[593:-18] # These numbers work for HTML files created with my doc_to_HTML program (use [631:-18] for python3)
         text = "<div>" + text
 
     return text
