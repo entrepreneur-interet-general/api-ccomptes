@@ -2,13 +2,13 @@
 Ccomptes
 ====
 
-.. image:: https://circleci.com/gh/etalab/cccomptes/tree/master.svg?style=svg
-    :target: https://circleci.com/gh/etalab/cccomptes/tree/master
+.. image:: https://circleci.com/gh/etalab/ccomptes/tree/master.svg?style=svg
+    :target: https://circleci.com/gh/etalab/ccomptes/tree/master
     :alt: Build status
 
 A simplistic interface to search and consult CCOMPTES reports.
 
-This is the engine behind http://cccomptes.data.gouv.fr.
+This is the engine behind http://ccomptes.data.gouv.fr.
 
 Compatibility
 =============
@@ -31,30 +31,30 @@ You can install Ccomptes with pip:
 
 .. code-block:: console
 
-    $ pip install cccomptes
+    $ pip install ccomptes
 
 
-You need to create the cccomptes working directory, designed by ``$HOME`` in this documentation:
+You need to create the ccomptes working directory, designed by ``$HOME`` in this documentation:
 
 .. code-block:: console
 
     $ mkdir -p $HOME && cd $HOME
-    $ vim cccomptes.cfg  # See configuration
-    $ wget http://cccomptes.data.gouv.fr/export -O data.csv
-    $ cccomptes load data.csv  # Load initial data
-    $ cccomptes static  # Optional: collect static assets for proper caching
-    $ cccomptes runserver
+    $ vim ccomptes.cfg  # See configuration
+    $ wget http://ccomptes.data.gouv.fr/export -O data.csv
+    $ ccomptes load data.csv  # Load initial data
+    $ ccomptes static  # Optional: collect static assets for proper caching
+    $ ccomptes runserver
 
 
 Configuration
 =============
-All configuration is done through the ``cccomptes.cfg`` file in ``$HOME``.
+All configuration is done through the ``ccomptes.cfg`` file in ``$HOME``.
 It's basically a Python file with constants defined in it:
 
 * ``SERVER_NAME``: the public server name. Mainly used in emails.
 * ``SECRET_KEY``: the common crypto hash.Used for session by exemple.
 * ``ELASTICSEARCH_URL``: the ElasticSearch server URL in ``host:port`` format. Default to ``localhost:9200`` if not set
-* ``MONGODB_SETTINGS``: a dictionary to configure MongoDB. Default to ``{'DB': 'cccomptes'}``. See `the official flask-mongoengine documentation <https://flask-mongoengine.readthedocs.org/en/latest/>`_ for more details.
+* ``MONGODB_SETTINGS``: a dictionary to configure MongoDB. Default to ``{'DB': 'ccomptes'}``. See `the official flask-mongoengine documentation <https://flask-mongoengine.readthedocs.org/en/latest/>`_ for more details.
 
 Mails
 -----
@@ -67,8 +67,8 @@ Mail server configuration is done through the following variables:
 * ``MAIL_USE_SSL``: activate SSL. Default to ``False``.
 * ``MAIL_USERNAME``: optional SMTP server username.
 * ``MAIL_PASSWORD``: optional SMTP server password.
-* ``MAIL_DEFAULT_SENDER``: Sender email used for mailings. Default to ``cccomptes@localhost``.
-* ``ANON_ALERT_MAIL``: destination mail for anonymisation alerts. Default to ``cccomptes.alert@localhost``.
+* ``MAIL_DEFAULT_SENDER``: Sender email used for mailings. Default to ``ccomptes@localhost``.
+* ``ANON_ALERT_MAIL``: destination mail for anonymisation alerts. Default to ``ccomptes.alert@localhost``.
 
 See the `official Flask-Mail documentation <http://pythonhosted.org/flask-mail/#configuring-flask-mail>`_ for more details.
 
@@ -81,8 +81,8 @@ You need to install the required dependencies:
 .. code-block:: console
 
     $ pip install raven[flask]
-    # Or to install it with cccomptes
-    $ pip install cccomptes[sentry]
+    # Or to install it with ccomptes
+    $ pip install ccomptes[sentry]
 
 You need to add your Sentry DSN to the configuration
 
@@ -103,9 +103,9 @@ You need to add your Sentry DSN to the configuration
       PIWIK_ID = X
 
 
-  .. image:: https://badges.gitter.im/etalab/cccomptes.svg
-     :alt: Join the chat at https://gitter.im/etalab/cccomptes
-     :target: https://gitter.im/etalab/cccomptes?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
+  .. image:: https://badges.gitter.im/etalab/ccomptes.svg
+     :alt: Join the chat at https://gitter.im/etalab/ccomptes
+     :target: https://gitter.im/etalab/ccomptes?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge
 
 To do
 ------

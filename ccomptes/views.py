@@ -15,9 +15,9 @@ from jinja2 import Markup
 from werkzeug import url_decode, url_encode
 from wtforms import TextField, ValidationError
 
-from cccomptes import csvcustom
-from cccomptes.models import Report
-from cccomptes.search import search_reports, home_data
+from ccomptes import csvcustom
+from ccomptes.models import Report
+from ccomptes.search import search_reports, home_data
 
 DEFAULT_PAGE_SIZE = 20
 
@@ -160,7 +160,7 @@ def alert(id):
         writer.writerow(csvcustom.ANON_HEADER)
         writer.writerow(csvcustom.to_anon_row(report))
         attachment = Attachment(
-            'cccomptes-fix-{0}.csv'.format(report.id),
+            'ccomptes-fix-{0}.csv'.format(report.id),
             'text/csv',
             csvfile.getvalue()
         )
@@ -206,7 +206,7 @@ def export_csv():
 
     date = datetime.now().date().isoformat()
     headers = {
-        b'Content-Disposition': 'attachment; filename=cccomptes-{0}.csv'.format(date),
+        b'Content-Disposition': 'attachment; filename=ccomptes-{0}.csv'.format(date),
         # b'X-Accel-Buffering': 'no',
     }
     response = Response(generate(), mimetype="text/csv", headers=headers)

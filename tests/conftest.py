@@ -3,9 +3,9 @@ import pytest
 
 from pytest_factoryboy import register
 
-from cccomptes import create_app
-from cccomptes.models import db, Report
-from cccomptes.search import es
+from ccomptes import create_app
+from ccomptes.models import db, Report
+from ccomptes.search import es
 
 
 @register
@@ -23,7 +23,7 @@ class ReportFactory(factory.mongoengine.MongoEngineFactory):
 
 class TestConfig:
     TESTING = True
-    MONGODB_DB = 'cccomptes-test'
+    MONGODB_DB = 'ccomptes-test'
 
 
 @pytest.fixture

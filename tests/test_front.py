@@ -1,6 +1,6 @@
 from flask import url_for
 
-from cccomptes import search
+from ccomptes import search
 
 
 def test_render_home_empty(client):

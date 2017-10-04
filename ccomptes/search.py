@@ -8,7 +8,7 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 from flask import current_app, request
 
-from cccomptes.models import Report
+from ccomptes.models import Report
 
 log = logging.getLogger(__name__)
 

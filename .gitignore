@@ -1,5 +1,5 @@
 *.pyc
-cccomptes/static/.webassets-cache
+ccomptes/static/.webassets-cache
 static/.webassets-cache
 
 .DS_Store

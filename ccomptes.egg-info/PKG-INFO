@@ -1,8 +1,8 @@
 Metadata-Version: 1.1
-Name: cccomptes
+Name: ccomptes
 Version: 0.1.0
 Summary: Search and consult CCOMPTES advices
-Home-page: https://github.com/etalab/cccomptes
+Home-page: https://github.com/etalab/ccomptes
 Author: Axel Haustant
 Author-email: axel@data.gouv.fr
 License: AGPLv3+
@@ -10,13 +10,13 @@ Description: ====
         Ccomptes
         ====
         
-        .. image:: https://circleci.com/gh/etalab/cccomptes/tree/master.svg?style=svg
-            :target: https://circleci.com/gh/etalab/cccomptes/tree/master
+        .. image:: https://circleci.com/gh/etalab/ccomptes/tree/master.svg?style=svg
+            :target: https://circleci.com/gh/etalab/ccomptes/tree/master
             :alt: Build status
         
         A simplistic interface to search and consult CCOMPTES advices.
         
-        This is the engine behind http://cccomptes.data.gouv.fr.
+        This is the engine behind http://ccomptes.data.gouv.fr.
         
         Compatibility
         =============
@@ -39,30 +39,30 @@ Description: ====
         
         ::
         
-            $ pip install cccomptes
+            $ pip install ccomptes
         
         
-        You need to create the cccomptes working directory, designed by ``$HOME`` in this documentation:
+        You need to create the ccomptes working directory, designed by ``$HOME`` in this documentation:
         
         ::
         
             $ mkdir -p $HOME && cd $HOME
-            $ vim cccomptes.cfg  # See configuration
-            $ wget http://cccomptes.data.gouv.fr/export -O data.csv
-            $ cccomptes load data.csv  # Load initial data
-            $ cccomptes static  # Optional: collect static assets for proper caching
-            $ cccomptes runserver
+            $ vim ccomptes.cfg  # See configuration
+            $ wget http://ccomptes.data.gouv.fr/export -O data.csv
+            $ ccomptes load data.csv  # Load initial data
+            $ ccomptes static  # Optional: collect static assets for proper caching
+            $ ccomptes runserver
         
         
         Configuration
         =============
-        All configuration is done through the ``cccomptes.cfg`` file in ``$HOME``.
+        All configuration is done through the ``ccomptes.cfg`` file in ``$HOME``.
         It's basically a Python file with constants defined in it:
         
         * ``SERVER_NAME``: the public server name. Mainly used in emails.
         * ``SECRET_KEY``: the common crypto hash.Used for session by exemple.
         * ``ELASTICSEARCH_URL``: the ElasticSearch server URL in ``host:port`` format. Default to ``localhost:9200`` if not set
-        * ``MONGODB_SETTINGS``: a dictionary to configure MongoDB. Default to ``{'DB': 'cccomptes'}``. See `the official flask-mongoengine documentation <https://flask-mongoengine.readthedocs.org/en/latest/>`_ for more details.
+        * ``MONGODB_SETTINGS``: a dictionary to configure MongoDB. Default to ``{'DB': 'ccomptes'}``. See `the official flask-mongoengine documentation <https://flask-mongoengine.readthedocs.org/en/latest/>`_ for more details.
         
         Mails
         -----
@@ -75,8 +75,8 @@ Description: ====
         * ``MAIL_USE_SSL``: activate SSL. Default to ``False``.
         * ``MAIL_USERNAME``: optional SMTP server username.
         * ``MAIL_PASSWORD``: optional SMTP server password.
-        * ``MAIL_DEFAULT_SENDER``: Sender email used for mailings. Default to ``cccomptes@localhost``.
-        * ``ANON_ALERT_MAIL``: destination mail for anonymisation alerts. Default to ``cccomptes.alert@localhost``.
+        * ``MAIL_DEFAULT_SENDER``: Sender email used for mailings. Default to ``ccomptes@localhost``.
+        * ``ANON_ALERT_MAIL``: destination mail for anonymisation alerts. Default to ``ccomptes.alert@localhost``.
         
         See the `official Flask-Mail documentation <http://pythonhosted.org/flask-mail/#configuring-flask-mail>`_ for more details.
         
@@ -89,8 +89,8 @@ Description: ====
         ::
         
             $ pip install raven[flask]
-            # Or to install it with cccomptes
-            $ pip install cccomptes[sentry]
+            # Or to install it with ccomptes
+            $ pip install ccomptes[sentry]
         
         You need to add your Sentry DSN to the configuration
         
@@ -111,7 +111,7 @@ Description: ====
             PIWIK_ID = X
         
         
-Keywords: cccomptes
+Keywords: ccomptes
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
 Classifier: Programming Language :: Python

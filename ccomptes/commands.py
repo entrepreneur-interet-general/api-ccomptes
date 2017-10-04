@@ -11,10 +11,10 @@ from sys import exit
 from flask_script import Manager, Server, prompt_bool
 from webassets.script import CommandLineEnvironment
 
-from cccomptes import create_app, csvcustom
-from cccomptes.assets import assets
-from cccomptes.models import Report
-from cccomptes.search import es, index
+from ccomptes import create_app, csvcustom
+from ccomptes.assets import assets
+from ccomptes.models import Report
+from ccomptes.search import es, index
 
 import sys
 csvcustom.field_size_limit(sys.maxsize)

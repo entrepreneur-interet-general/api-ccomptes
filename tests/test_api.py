@@ -1,6 +1,6 @@
 from flask import url_for
 
-from cccomptes import search
+from ccomptes import search
 
 
 def test_api_doc_empty(client):

@@ -1,6 +1,6 @@
 include LICENSE MANIFEST.in README.rst manage.py
 
-recursive-include cccomptes *
+recursive-include ccomptes *
 recursive-include requirements *
 
 global-exclude *~ *.egg *.pyc .DS_Store

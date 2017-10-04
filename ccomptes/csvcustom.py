@@ -6,7 +6,7 @@ import unicodecsv
 from flask import url_for
 from datetime import datetime
 
-from cccomptes.models import Report
+from ccomptes.models import Report
 
 from _csv import field_size_limit
 
