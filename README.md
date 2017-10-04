@@ -1,11 +1,12 @@
 # Ccomptes
-
 Une interface simple pour rechercher et consulter les rapports de la Cour des comptes.
+
 
 # Déploiement sur un serveur
 
 ## Préparation
-Installation des différents paquets:
+
+Installer des paquets:
 ```
 apt-get update
 apt-get upgrade
@@ -14,7 +15,7 @@ pip install --upgrade pip
 ```
 
 ## Installation depuis Github
-Installer de ccomptes depuis Github dans le dossier `deploy`:
+Installer ccomptes depuis Github dans le dossier `deploy`:
 ```
 mkdir ~/deploy && cd ~/deploy
 git clone https://github.com/eig-2017/api-ccomptes.git
@@ -50,22 +51,22 @@ sudo systemctl start elasticsearch
 
 
 ## Prépartion des données et lancement du serveur
-Charger les données depuis `data.csv`:
+Charger les données depuis `data.csv` :
 ```
 ccomptes load data.csv
 ```
 
-Compiler les fichiers statiques:
+Compiler les fichiers statiques :
 ```
 ccomptes static
 ```
 
-Indexer dans Elasticsearch:
+Indexer dans Elasticsearch :
 ```
 sudo ccomptes reindex
 ```
 
-Lancer le serveur:
+Lancer le serveur :
 ```
 sudo ccomptes runserver
 ```
@@ -74,7 +75,7 @@ TODO : passer à une configuration uwsgi + nginx
 
 
 ## Modifier les données
-Générer le fichier data.csv avec grâce aux fichiers HTML dans `data` :
+Générer le fichier data.csv avec `create-csv.py`. Nécessite des fichiers au format HTML dans le dossier `data` :
 ```
 pip install -r requirements/create-csv.pip
 python create-csv.py
@@ -87,6 +88,6 @@ ccomptes load data.csv
 sudo ccomptes reindex
 ```
 
+# Note
 
-#Note
 Fork du projet [Cada d'Etalab](https://github.com/etalab/cada)
