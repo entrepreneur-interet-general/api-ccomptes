@@ -56,11 +56,11 @@ if sys.version_info[0:2] < (2, 7):
     install_requires += ['argparse']
 
 setup(
-    name='cada',
+    name='cccomptes',
     version='0.1.0',
-    description='Search and consult CADA reports',
+    description='Search and consult CCOMPTES reports',
     long_description=long_description,
-    url='https://github.com/etalab/cada',
+    url='https://github.com/etalab/cccomptes',
     author='Axel Haustant',
     author_email='axel@data.gouv.fr',
     packages=find_packages(),
@@ -73,11 +73,11 @@ setup(
     },
     entry_points={
         'console_scripts': [
-            'cada = cada.commands:main',
+            'cccomptes = cccomptes.commands:main',
         ]
     },
     license='AGPLv3+',
-    keywords='cada',
+    keywords='cccomptes',
     classifiers=[
         'Development Status :: 3 - Alpha',
         'Programming Language :: Python',

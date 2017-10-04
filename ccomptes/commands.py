@@ -11,10 +11,10 @@ from sys import exit
 from flask_script import Manager, Server, prompt_bool
 from webassets.script import CommandLineEnvironment
 
-from cada import create_app, csv
-from cada.assets import assets
-from cada.models import Report
-from cada.search import es, index
+from cccomptes import create_app, csv
+from cccomptes.assets import assets
+from cccomptes.models import Report
+from cccomptes.search import es, index
 
 import sys
 csv.field_size_limit(sys.maxsize)
@@ -33,7 +33,7 @@ manager.add_command("runserver", Server(
 @manager.option('-r', '--reindex', dest="full_reindex", action='store_true',
                 help="Trigger a full reindexation")
 def load(patterns, full_reindex):
-    '''Load a CADA CSV file'''
+    '''Load a CCOMPTES CSV file'''
     for pattern in patterns:
         for filename in iglob(pattern):
             print('Loading', filename)

@@ -8,7 +8,7 @@ from datetime import datetime
 from elasticsearch import Elasticsearch
 from flask import current_app, request
 
-from cada.models import Report
+from cccomptes.models import Report
 
 log = logging.getLogger(__name__)
 
@@ -277,7 +277,7 @@ def home_data():
 
 
 def index(report):
-    '''Index/Reindex a CADA report'''
+    '''Index/Reindex a CCOMPTES report'''
     topics = []
     for topic in report.topics:
         topics.append(topic)

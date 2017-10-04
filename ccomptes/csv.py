@@ -6,7 +6,7 @@ import unicodecsv
 from flask import url_for
 from datetime import datetime
 
-from cada.models import Report
+from cccomptes.models import Report
 
 from _csv import field_size_limit
 
@@ -29,12 +29,12 @@ ANON_HEADER = ('id', 'url', 'replace', 'with')
 
 
 def reader(f):
-    '''CSV Reader factory for CADA format'''
+    '''CSV Reader factory for CCOMPTES format'''
     return unicodecsv.reader(f, encoding='utf-8', delimiter=b',', quotechar=b'"')
 
 
 def writer(f):
-    '''CSV writer factory for CADA format'''
+    '''CSV writer factory for CCOMPTES format'''
     return unicodecsv.writer(f, encoding='utf-8', delimiter=b',', quotechar=b'"')
 
 

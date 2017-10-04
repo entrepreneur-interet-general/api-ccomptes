@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-# from cada import app
-from cada.commands import manager
+# from cccomptes import app
+from cccomptes.commands import manager
 
 # class DebugConfig:
 #     ASSETS_DEBUG = True

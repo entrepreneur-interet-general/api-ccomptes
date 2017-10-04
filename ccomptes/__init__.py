@@ -8,26 +8,26 @@ from os.path import exists, join
 
 
 class DefaultConfig(object):
-    MONGODB_DB = 'cada'
+    MONGODB_DB = 'cccomptes'
     SECRET_KEY = 'no-secret-this-is-open'
-    MAIL_DEFAULT_SENDER = 'cada@locahost'
-    ANON_ALERT_MAIL = 'cada.alert@locahost'
+    MAIL_DEFAULT_SENDER = 'cccomptes@locahost'
+    ANON_ALERT_MAIL = 'cccomptes.alert@locahost'
 
 
 def create_app(config=None):
     from flask import Flask
 
-    from cada import views, api
-    from cada.assets import assets
-    from cada.models import db
-    from cada.search import es
+    from cccomptes import views, api
+    from cccomptes.assets import assets
+    from cccomptes.models import db
+    from cccomptes.search import es
 
-    app = Flask('cada')
+    app = Flask('cccomptes')
 
     app.config.from_object(DefaultConfig)
-    app.config.from_envvar('CADA_CONFIG', silent=True)
+    app.config.from_envvar('CCOMPTES_CONFIG', silent=True)
 
-    custom_settings = join(os.getcwd(), 'cada.cfg')
+    custom_settings = join(os.getcwd(), 'cccomptes.cfg')
     if exists(custom_settings):
         app.config.from_pyfile(custom_settings)
 

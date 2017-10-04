@@ -4,8 +4,8 @@ from __future__ import unicode_literals
 
 from flask import Blueprint, render_template, jsonify
 
-from cada.models import Report
-from cada.search import search_reports
+from cccomptes.models import Report
+from cccomptes.search import search_reports
 
 
 api = Blueprint('api', __name__)

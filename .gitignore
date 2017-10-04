@@ -1,6 +1,6 @@
 *.pyc
 *.csv
-cada/static/.webassets-cache
+cccomptes/static/.webassets-cache
 static/.webassets-cache
 
 .DS_Store

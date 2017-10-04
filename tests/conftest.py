@@ -3,9 +3,9 @@ import pytest
 
 from pytest_factoryboy import register
 
-from cada import create_app
-from cada.models import db, Report
-from cada.search import es
+from cccomptes import create_app
+from cccomptes.models import db, Report
+from cccomptes.search import es
 
 
 @register
@@ -23,7 +23,7 @@ class ReportFactory(factory.mongoengine.MongoEngineFactory):
 
 class TestConfig:
     TESTING = True
-    MONGODB_DB = 'cada-test'
+    MONGODB_DB = 'cccomptes-test'
 
 
 @pytest.fixture

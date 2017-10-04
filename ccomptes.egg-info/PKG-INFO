@@ -1,27 +1,27 @@
 Metadata-Version: 1.1
-Name: cada
+Name: cccomptes
 Version: 0.1.0
-Summary: Search and consult CADA advices
-Home-page: https://github.com/etalab/cada
+Summary: Search and consult CCOMPTES advices
+Home-page: https://github.com/etalab/cccomptes
 Author: Axel Haustant
 Author-email: axel@data.gouv.fr
 License: AGPLv3+
 Description: ====
-        Cada
+        Ccomptes
         ====
         
-        .. image:: https://circleci.com/gh/etalab/cada/tree/master.svg?style=svg
-            :target: https://circleci.com/gh/etalab/cada/tree/master
+        .. image:: https://circleci.com/gh/etalab/cccomptes/tree/master.svg?style=svg
+            :target: https://circleci.com/gh/etalab/cccomptes/tree/master
             :alt: Build status
         
-        A simplistic interface to search and consult CADA advices.
+        A simplistic interface to search and consult CCOMPTES advices.
         
-        This is the engine behind http://cada.data.gouv.fr.
+        This is the engine behind http://cccomptes.data.gouv.fr.
         
         Compatibility
         =============
         
-        CADA has been tested on Python 2.7, MongoDB 2.4+ and ElasticSearch 2.4.
+        CCOMPTES has been tested on Python 2.7, MongoDB 2.4+ and ElasticSearch 2.4.
         
         The `ElasticSearch ICU Analysis plugin <https://www.elastic.co/guide/en/elasticsearch/plugins/2.4/analysis-icu.html>`_ is required.
         
@@ -35,34 +35,34 @@ Description: ====
         Installation
         ============
         
-        You can install Cada with pip:
+        You can install Ccomptes with pip:
         
         ::
         
-            $ pip install cada
+            $ pip install cccomptes
         
         
-        You need to create the cada working directory, designed by ``$HOME`` in this documentation:
+        You need to create the cccomptes working directory, designed by ``$HOME`` in this documentation:
         
         ::
         
             $ mkdir -p $HOME && cd $HOME
-            $ vim cada.cfg  # See configuration
-            $ wget http://cada.data.gouv.fr/export -O data.csv
-            $ cada load data.csv  # Load initial data
-            $ cada static  # Optional: collect static assets for proper caching
-            $ cada runserver
+            $ vim cccomptes.cfg  # See configuration
+            $ wget http://cccomptes.data.gouv.fr/export -O data.csv
+            $ cccomptes load data.csv  # Load initial data
+            $ cccomptes static  # Optional: collect static assets for proper caching
+            $ cccomptes runserver
         
         
         Configuration
         =============
-        All configuration is done through the ``cada.cfg`` file in ``$HOME``.
+        All configuration is done through the ``cccomptes.cfg`` file in ``$HOME``.
         It's basically a Python file with constants defined in it:
         
         * ``SERVER_NAME``: the public server name. Mainly used in emails.
         * ``SECRET_KEY``: the common crypto hash.Used for session by exemple.
         * ``ELASTICSEARCH_URL``: the ElasticSearch server URL in ``host:port`` format. Default to ``localhost:9200`` if not set
-        * ``MONGODB_SETTINGS``: a dictionary to configure MongoDB. Default to ``{'DB': 'cada'}``. See `the official flask-mongoengine documentation <https://flask-mongoengine.readthedocs.org/en/latest/>`_ for more details.
+        * ``MONGODB_SETTINGS``: a dictionary to configure MongoDB. Default to ``{'DB': 'cccomptes'}``. See `the official flask-mongoengine documentation <https://flask-mongoengine.readthedocs.org/en/latest/>`_ for more details.
         
         Mails
         -----
@@ -75,8 +75,8 @@ Description: ====
         * ``MAIL_USE_SSL``: activate SSL. Default to ``False``.
         * ``MAIL_USERNAME``: optional SMTP server username.
         * ``MAIL_PASSWORD``: optional SMTP server password.
-        * ``MAIL_DEFAULT_SENDER``: Sender email used for mailings. Default to ``cada@localhost``.
-        * ``ANON_ALERT_MAIL``: destination mail for anonymisation alerts. Default to ``cada.alert@localhost``.
+        * ``MAIL_DEFAULT_SENDER``: Sender email used for mailings. Default to ``cccomptes@localhost``.
+        * ``ANON_ALERT_MAIL``: destination mail for anonymisation alerts. Default to ``cccomptes.alert@localhost``.
         
         See the `official Flask-Mail documentation <http://pythonhosted.org/flask-mail/#configuring-flask-mail>`_ for more details.
         
@@ -89,8 +89,8 @@ Description: ====
         ::
         
             $ pip install raven[flask]
-            # Or to install it with cada
-            $ pip install cada[sentry]
+            # Or to install it with cccomptes
+            $ pip install cccomptes[sentry]
         
         You need to add your Sentry DSN to the configuration
         
@@ -111,7 +111,7 @@ Description: ====
             PIWIK_ID = X
         
         
-Keywords: cada
+Keywords: cccomptes
 Platform: UNKNOWN
 Classifier: Development Status :: 3 - Alpha
 Classifier: Programming Language :: Python
