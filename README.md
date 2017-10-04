@@ -2,7 +2,7 @@
 Une interface simple pour rechercher et consulter les rapports de la Cour des comptes.
 
 
-# Déploiement sur un serveur
+# Déploiement sur un serveur Ubuntu (testé sur 16.04)
 
 ## Préparation
 
