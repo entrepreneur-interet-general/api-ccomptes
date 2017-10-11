@@ -46,7 +46,7 @@ def pip(filename):
 
 
 long_description = '\n'.join((
-    rst('README.rst'),
+    rst('README.md'),
     ''
 ))
 
