@@ -1,7 +1,7 @@
 # Partie 1 : récupération des données
 ![architecture1](https://github.com/eig-2017/api-ccomptes/blob/master/doc/architecture1.svg)
 
-**1. Le script `scrapdocjf.py` :**
+**1. Le script `scrap-docjf.py` :**
 
 * Se connecte à la base de données documentaire DocJF.
 * Télécharge les rapports en formats `.docx` dans le dossier `data`. Le format `.docx` est le seul accepté par le script ; les fichiers en `.pdf` ne sont pas téléchargés. Le dossier `data` est créer s'il n'existe pas.
@@ -19,7 +19,7 @@ Spécifications du fichier `metadonnes.csv` :
 * Séparateur : `;`
 
 
-**2. Le script `word_converter.py` :**
+**2. Le script `convert-docx.py` :**
 
 * Ouvre tous les fichiers en format `.docx` présents dans le dossier `data`.
 * Transforme le format `.docx` en format `.html`.
