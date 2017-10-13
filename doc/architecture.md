@@ -51,11 +51,34 @@ Spécifications du fichier `data.csv` :
 
 * Charge les données stockées dans le fichier `data.csv`.
 * Stock les données dans une base de données `mongoDB`.
+* Si le chargement est effectif, les lignes suivantes sont imprimées :
+```
+Loading data.csv
+..........................
+Processed n rows
+```
 
 **5. La commande `ccomptes reindex` :**
 
 * Indexe les données contenues dans la base de données `mongoDB` dans le moteur de recherche `Elasticsearch`.
+* Si l'indexation est effective, les lignes suivantes sont imprimées :
+```
+Deleting index ccomptes
+..........................
+Indexed 26 reports
+```
 
 **6. La commande `ccomptes runserver` :**
 
 * Lance le serveur de développement de Flask.
+* Si le lancement est effectif, les lignes suivantes sont imprimées :
+```
+ * Running on http://0.0.0.0:5000/ (Press CTRL+C to quit)
+ * Restarting with stat
+ * Debugger is active!
+ * Debugger PIN: ***-***-***
+```
+
+# Autre
+
+* Pour effacer la base de données `mongoDB` : `mongo ccomptes --eval "db.dropDatabase()"`
