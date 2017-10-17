@@ -29,7 +29,7 @@ Spécifications du fichier `metadonnes.csv` :
 
 * Ouvre tous les fichiers en format `.html` dans le dossier `data` et ouvre le fichier `metadonnes.csv`.
 * Modifie les fichiers `.html` en enlevant notamment la partie `<head>`.
-* Crée une version simplifié du rapport qui sera utilisée pour l'indexage appelé `Texte index`. Pour créer cette version, le `.html` est purgé de toutes les balises (`<div>`, `<table>`, `<p>`, etc.), purgé d'une liste de mots vides (`le`, `la`, `du`, etc.) et seuls les 30000 premiers caractères sont conservé. Cette version simplifié sera utilisé pour indexer les rapports dans Elasticsearch, afin de respectant les limites en terme de taille de donnée.
+* Crée une version simplifié du rapport qui sera utilisée pour l'indexage appelé `Texte index`. Pour créer cette version, le `.html` est purgé de toutes les balises (`<div>`, `<table>`, `<p>`, etc.), purgé d'une liste de mots vides (`le`, `la`, `du`, etc.) et seuls les 30000 premiers caractères sont conservés (si on tente d'indexer le rapport entier, on a [cette erreur](https://stackoverflow.com/questions/24019868/utf8-encoding-is-longer-than-the-max-length-32766)). Cette version simplifié sera utilisé pour indexer les rapports dans Elasticsearch, afin de respectant les limites en terme de taille de donnée.
 * Génère un fichier appelé `data.csv` qui contient l'ensemble des rapports en `html`, l'ensemble des rapports simplifiés et d'autres métadonnées.
 
 Spécifications du fichier `data.csv` :
