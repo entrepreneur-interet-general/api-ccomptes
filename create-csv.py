@@ -66,7 +66,7 @@ def simplify_text(text):
      start = "<"
      end = ">"
      pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
-     new_text = re.sub(pattern, "", new_text)
+     new_text = re.sub(pattern, " ", new_text)
 
      # Remove extra whitespace
      new_text = ' '.join(new_text.split())
@@ -188,7 +188,7 @@ corpus = corpus.merge(meta, on = u"Clé Flora")
 
 # Generate a DataFrame
 cour = pd.DataFrame (data = np.arange(len(corpus)), columns = [u"Numéro de dossier"])
-cour[u"Juridiction"] = corpus[u"Juridiction"] + " (" + corpus[u"Entité Productrice"] + ")"
+cour[u"Juridiction"] = corpus[u"Juridiction"]
 cour[u"Juridiction"] = cour[u"Juridiction"].apply(lambda x : x.capitalize())
 cour[u"Type"] = corpus[u"Type document"]
 cour[u"Année"] = corpus[u"Date du document"].apply(lambda x:x[6:])
