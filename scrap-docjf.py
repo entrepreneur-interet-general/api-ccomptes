@@ -173,7 +173,7 @@ for flora_key in flora_keys:
 
 
 columns = ['Clé Flora', 'Date du document', 'Nombre de fichier sauvegardé',
-           'Titre', 'Type document', 'Juridiction', 'Entité Productrice']
+           'Titre', 'Type document', 'Juridiction']
 
 
 pd.DataFrame(metadatas).to_csv("data/metadonnees.csv", sep = ";", na_rep = "NA",
