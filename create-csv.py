@@ -67,13 +67,37 @@ def clean_text(text):
          :Examples:
          >>> clean_text('This text have lots of\n\n\n')
          'This text have lots of   '
-         >>> clean_text('<div>This text have HTML</div>')
-         'This text have HTML'
-         >>> clean_text('This text have too much      spaces')
-         'This text have too much spaces'
-         >>> clean_text('Ce texte a des mots inutiles')
-         'texte mots inutiles'
+         >>> clean_text('<div class="pg1">\n    <p>\n     Le\n    </p>\n   </div>')
+         '<div class="pg1">\n    <p>    </p>\n   </div>'
      '''
+     
+     # Remove paragraphs that contain just the word "Le"
+     start = "\n"
+     end = "Le\n"
+     pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
+     new_text = re.sub(pattern, "", text)
+     
+     return new_text
+
+def simplify_text(text):
+     '''
+         Get a text and returns a simplified text
+
+         :param text: The complicated text
+         :type text: str
+         :return: The simplified text
+         :rtype: str
+
+         :Examples:
+         >>> simplify_text('This text have lots of\n\n\n')
+         'This text have lots of   '
+         >>> simplify_text('<div>This text have HTML</div>')
+         'This text have HTML'
+         >>> simplify_text('This text have too much      spaces')
+         'This text have too much spaces'
+         >>> simplify_text('Ce texte a des mots inutiles')
+         'texte mots inutiles'
+     '''               
      # Replace new lines with spaces
      new_text = text.replace("\n", " ")
 
@@ -81,7 +105,7 @@ def clean_text(text):
      start = "<"
      end = ">"
      pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
-     new_text = re.sub(pattern, '', new_text)
+     new_text = re.sub(pattern, "", new_text)
 
      # Remove extra whitespace
      new_text = ' '.join(new_text.split())
@@ -201,10 +225,10 @@ cour[u"Publication"] = corpus[u"Date du document"]
 cour[u"Objet"] = corpus[u"Titre"].apply(lambda x:clean_title(x))
 cour[u"Thème et sous thème"] = u"N/A"
 cour[u"Mots clés"] = u"N/A"
-cour[u"Rapport"] = corpus[u"report"].values
+cour[u"Rapport"] = corpus[u"report"].apply(lambda x: clean_text(x))
 
 # Shorten reports for Elasticsearch
-cour[u"Texte index"] = cour[u"Rapport"].apply(lambda x: clean_text(x)[:30000])
+cour[u"Texte index"] = cour[u"Rapport"].apply(lambda x: simplify_text(x)[:30000])
 
 
 # Export to csv
