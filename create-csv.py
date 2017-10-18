@@ -7,52 +7,10 @@ Created on Thu May 11 10:53:09 2017
 """
 import pandas as pd
 import numpy as np
-import docx
 import re
-from subprocess import Popen, PIPE
 from bs4 import BeautifulSoup
 from os import listdir
 from os.path import isfile, join
-
-#==============================================================================
-# def doc_to_txt(filename):
-#     '''
-#         Get the path of a Word document and returns the text of this document
-#
-#         :param filename: The filename of the doc or docx document
-#         :type filename: str
-#         :return: The text of the document
-#         :rtype: str
-#
-#         :Example:
-#
-#         >>> doc_to_txt("/Users/seiteta/Work/quen-dit-la-cour/reports/jf00097342.doc")
-#         'This is text from a .doc document'
-#         >>> doc_to_txt("/Users/seiteta/Work/quen-dit-la-cour/reports/jf00136930.docx")
-#         'This is text from a .docx document'
-#
-#     '''
-#     full_text = []
-#
-#     if filename.lower().endswith(".doc"):
-#         print("Converting to txt the doc file:" + filename)
-#         cmd = ['antiword', filename]
-#         p = Popen(cmd, stdout=PIPE)
-#         stdout, stderr = p.communicate()
-#         full_text = stdout.decode()
-#
-#     elif filename.lower().endswith(".docx"):
-#         print("Converting to txt the docx file:" + filename)
-#         doc = docx.Document(filename)
-#         for para in doc.paragraphs:
-#             full_text.append(para.text)
-#         full_text = '\n'.join(full_text)
-#
-#     else :
-#         print("Document extension should be either .doc or .docx")
-#
-#     return full_text
-#==============================================================================
 
 
 def clean_text(text):
@@ -81,7 +39,7 @@ def clean_text(text):
          return new_text
      else:
          return text
-         
+
 
 def simplify_text(text):
      '''
@@ -198,8 +156,8 @@ def remove_html_head(filename):
 
     return text
 
+# Specify data path
 path = "data/"
-#path = "/Users/seiteta/Desktop/dossier sans titre/datasession/2 – Données clef USB/donnees_jf/rapports_publics_2016/"
 
 # Create a list of files
 report_filenames = list_files(path)
