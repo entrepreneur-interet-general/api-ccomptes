@@ -28,15 +28,14 @@ def clean_text(text):
      '''
      if type(text) is str:
          # Remove paragraphs that contain just the word "Le"
-         start = "\n"
-         end = "Le\n"
-         pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
-         new_text = re.sub(pattern, "", text)
+         new_text = text.replace("<p>Le</p>", "")
+         new_text = new_text.replace("<p>\t\tLe </p>", "")
          
          # Remove spurious Windows character
-         new_text = text.replace("\x92", "’")
+         new_text = new_text.replace("\x92", "’")
          
          return new_text
+     
      else:
          return text
 
