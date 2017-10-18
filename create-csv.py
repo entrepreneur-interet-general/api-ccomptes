@@ -65,19 +65,23 @@ def clean_text(text):
          :rtype: str
 
          :Examples:
-         >>> clean_text('This text have lots of\n\n\n')
-         'This text have lots of   '
          >>> clean_text('<div class="pg1">\n    <p>\n     Le\n    </p>\n   </div>')
          '<div class="pg1">\n    <p>    </p>\n   </div>'
      '''
-     
-     # Remove paragraphs that contain just the word "Le"
-     start = "\n"
-     end = "Le\n"
-     pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
-     new_text = re.sub(pattern, "", text)
-     
-     return new_text
+     if type(text) is str:
+         # Remove paragraphs that contain just the word "Le"
+         start = "\n"
+         end = "Le\n"
+         pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
+         new_text = re.sub(pattern, "", text)
+         
+         # Remove spurious Windows character
+         new_text = text.replace("\x92", "’")
+         
+         return new_text
+     else:
+         return text
+         
 
 def simplify_text(text):
      '''
@@ -225,7 +229,8 @@ cour[u"Publication"] = corpus[u"Date du document"]
 cour[u"Objet"] = corpus[u"Titre"].apply(lambda x:clean_title(x))
 cour[u"Thème et sous thème"] = u"N/A"
 cour[u"Mots clés"] = u"N/A"
-cour[u"Rapport"] = corpus[u"report"].apply(lambda x: clean_text(x))
+cour[u"Rapport"] = corpus[u"report"].values    
+cour = cour.applymap(clean_text)
 
 # Shorten reports for Elasticsearch
 cour[u"Texte index"] = cour[u"Rapport"].apply(lambda x: simplify_text(x)[:30000])
