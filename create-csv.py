@@ -205,7 +205,7 @@ cour[u"Texte index"] = cour[u"Rapport"].apply(lambda x: simplify_text(x)[:30000]
 
 
 # Export to csv
-cour.to_csv("data.csv", index = None, encoding = 'utf-8', sep = ";")
+cour.to_csv("data.csv", index = None, encoding = 'utf-8')
 
 
 # This commented part can be used to automatically generate keywords for each report
