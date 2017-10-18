@@ -8,7 +8,7 @@ Created on Thu May 11 10:53:09 2017
 import pandas as pd
 import numpy as np
 import re
-from bs4 import BeautifulSoup
+import codecs
 from os import listdir
 from os.path import isfile, join
 
@@ -149,12 +149,22 @@ def remove_html_head(filename):
         '<div><div class="table-grid">\n    <p>\n     <table class="table"> ...'
 
     '''
-    with open(filename, 'r') as html:
-        soup = BeautifulSoup(html, 'html.parser')
-        text = soup.prettify()[593:-18] # These numbers work for HTML files created with my doc_to_HTML program (use [631:-18] for python3)
-        text = "<div>" + text
+    with codecs.open(filename, 'r') as html:
+        html = html.read()
 
-    return text
+        # Remove the head part
+        start = "<!DOCTYPE"
+        end = "<body>"
+        pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
+        new_html = re.sub(pattern, "", html, flags=re.DOTALL)
+
+        # Remove the correspondant closing part
+        start = "</body>"
+        end = "</html>"
+        pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
+        new_html = re.sub(pattern, "", new_html, flags=re.DOTALL)
+
+    return new_html
 
 # Specify data path
 path = "data/"
@@ -195,7 +205,7 @@ cour[u"Texte index"] = cour[u"Rapport"].apply(lambda x: simplify_text(x)[:30000]
 
 
 # Export to csv
-cour.to_csv("data.csv", index = None, encoding='utf-8')
+cour.to_csv("data.csv", index = None, encoding = 'utf-8', sep = ";")
 
 
 # This commented part can be used to automatically generate keywords for each report
