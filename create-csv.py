@@ -27,12 +27,20 @@ def clean_text(text):
          '<div class="pg1">\n    <p>    </p>\n   </div>'
      '''
      if type(text) is str:
+         
+         # Remove extra whitespace
+         new_text = ' '.join(text.split())
+         
          # Remove paragraphs that contain just the word "Le"
-         new_text = text.replace("<p>Le</p>", "")
-         new_text = new_text.replace("<p>\t\tLe </p>", "")
+         start = "<p>"
+         end = "Le</p>"
+         pattern = '%s(.*?)%s' % (re.escape(start), re.escape(end))
+         new_text = re.sub(pattern, "", new_text, flags=re.DOTALL)         
+         new_text = new_text.replace("<p>\t\tLe </p>", "")                  
+         new_text = new_text.replace("<td>Le </td>", "")
          
          # Remove spurious Windows character
-         new_text = new_text.replace("\x92", "’")
+         new_text = new_text.replace("\x92", "'")
          
          return new_text
      
