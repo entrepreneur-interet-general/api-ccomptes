@@ -1,5 +1,6 @@
 *.pyc
 ccomptes/static/.webassets-cache
 static/.webassets-cache
+credentials.py
 
 .DS_Store
