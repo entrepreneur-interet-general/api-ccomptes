@@ -75,7 +75,7 @@ TODO : passer à une configuration uwsgi + nginx
 
 
 ## Modifier les données
-Générer le fichier `data.csv avec `create-csv.py`. Nécessite des fichiers au format HTML dans le dossier `data` :
+Générer le fichier `data.csv` avec `create-csv.py`. Nécessite des fichiers au format HTML dans le dossier `data` :
 ```
 pip install -r requirements/create-csv.pip
 python create-csv.py
